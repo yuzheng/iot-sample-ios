@@ -6,4 +6,5 @@ target 'iotapp' do
   pod 'BWJSONMatcher', '~> 1.1.0'
   pod 'CocoaAsyncSocket'
   pod 'MQTTClient'
+  pod 'SWRevealViewController', '~> 2.1'
 end

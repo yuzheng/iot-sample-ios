@@ -140,6 +140,7 @@
 				TargetAttributes = {
 					97A5F2231D669C9800AB64DC = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = EWE7DXCTHS;
 					};
 				};
 			};
@@ -343,6 +344,7 @@
 			baseConfigurationReference = E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = iotapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cht.iot.iotapp;
@@ -355,6 +357,7 @@
 			baseConfigurationReference = 2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = iotapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cht.iot.iotapp;
