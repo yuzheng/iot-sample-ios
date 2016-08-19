@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		027FD319F1B630E5611D1CA4 /* Pods_iotapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */; };
 		97A5F2291D669C9800AB64DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2281D669C9800AB64DC /* main.m */; };
 		97A5F22C1D669C9800AB64DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F22B1D669C9800AB64DC /* AppDelegate.m */; };
 		97A5F22F1D669C9900AB64DC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F22E1D669C9900AB64DC /* ViewController.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.release.xcconfig"; sourceTree = "<group>"; };
+		7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iotapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A5F2241D669C9800AB64DC /* iotapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iotapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A5F2281D669C9800AB64DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		97A5F22A1D669C9800AB64DC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -28,6 +31,7 @@
 		97A5F2361D669C9900AB64DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97A5F2391D669C9900AB64DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97A5F23B1D669C9900AB64DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				027FD319F1B630E5611D1CA4 /* Pods_iotapp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,8 @@
 			children = (
 				97A5F2261D669C9800AB64DC /* iotapp */,
 				97A5F2251D669C9800AB64DC /* Products */,
+				CCEA072850815D3D012CE0AD /* Pods */,
+				A78A9916E6965F138EC3C614 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,6 +89,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A78A9916E6965F138EC3C614 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CCEA072850815D3D012CE0AD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */,
+				2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -89,9 +113,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97A5F23E1D669C9900AB64DC /* Build configuration list for PBXNativeTarget "iotapp" */;
 			buildPhases = (
+				45A260F05017305EAC9CE353 /* [CP] Check Pods Manifest.lock */,
 				97A5F2201D669C9800AB64DC /* Sources */,
 				97A5F2211D669C9800AB64DC /* Frameworks */,
 				97A5F2221D669C9800AB64DC /* Resources */,
+				48B77F59788217A7C0690FC8 /* [CP] Embed Pods Frameworks */,
+				BDC687A9F1668D0C7FD515DF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -146,6 +173,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		45A260F05017305EAC9CE353 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		48B77F59788217A7C0690FC8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iotapp/Pods-iotapp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDC687A9F1668D0C7FD515DF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iotapp/Pods-iotapp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		97A5F2201D669C9800AB64DC /* Sources */ = {
@@ -265,6 +340,7 @@
 		};
 		97A5F23F1D669C9900AB64DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = iotapp/Info.plist;
@@ -276,6 +352,7 @@
 		};
 		97A5F2401D669C9900AB64DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = iotapp/Info.plist;
@@ -304,6 +381,7 @@
 				97A5F2401D669C9900AB64DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
