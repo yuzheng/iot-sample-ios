@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		027FD319F1B630E5611D1CA4 /* Pods_iotapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */; };
+		972110231D6AC09D009B8941 /* ControllerClientBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110221D6AC09D009B8941 /* ControllerClientBuilder.m */; };
+		972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110251D6AC36A009B8941 /* LocalModeProtocol.m */; };
+		972110291D6AD174009B8941 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110281D6AD174009B8941 /* Session.m */; };
 		97A5F2291D669C9800AB64DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2281D669C9800AB64DC /* main.m */; };
 		97A5F22C1D669C9800AB64DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F22B1D669C9800AB64DC /* AppDelegate.m */; };
 		97A5F22F1D669C9900AB64DC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F22E1D669C9900AB64DC /* ViewController.m */; };
@@ -15,11 +18,29 @@
 		97A5F2351D669C9900AB64DC /* iotapp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2331D669C9900AB64DC /* iotapp.xcdatamodeld */; };
 		97A5F2371D669C9900AB64DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2361D669C9900AB64DC /* Assets.xcassets */; };
 		97A5F23A1D669C9900AB64DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2381D669C9900AB64DC /* LaunchScreen.storyboard */; };
+		97A5F2471D66CD9500AB64DC /* OpenRESTfulClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2461D66CD9500AB64DC /* OpenRESTfulClient.m */; };
+		97A5F2571D66CDB400AB64DC /* IId.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F24A1D66CDB400AB64DC /* IId.m */; };
+		97A5F2581D66CDB400AB64DC /* IDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F24C1D66CDB400AB64DC /* IDevice.m */; };
+		97A5F2591D66CDB400AB64DC /* ISensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F24E1D66CDB400AB64DC /* ISensor.m */; };
+		97A5F25A1D66CDB400AB64DC /* IAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2501D66CDB400AB64DC /* IAttribute.m */; };
+		97A5F25B1D66CDB400AB64DC /* IRawdata.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2521D66CDB400AB64DC /* IRawdata.m */; };
+		97A5F25C1D66CDB400AB64DC /* IProvision.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2541D66CDB400AB64DC /* IProvision.m */; };
+		97A5F25D1D66CDB400AB64DC /* IMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2561D66CDB400AB64DC /* IMessage.m */; };
+		97A5F2621D66CDCB00AB64DC /* device.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F25F1D66CDCB00AB64DC /* device.png */; };
+		97A5F2631D66CDCB00AB64DC /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2601D66CDCB00AB64DC /* loading.png */; };
+		97A5F2641D66CDCB00AB64DC /* iot-launch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */; };
+		97A5F2671D66F01300AB64DC /* ConfigureProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.release.xcconfig"; sourceTree = "<group>"; };
 		7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iotapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		972110211D6AC09D009B8941 /* ControllerClientBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerClientBuilder.h; sourceTree = "<group>"; };
+		972110221D6AC09D009B8941 /* ControllerClientBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControllerClientBuilder.m; sourceTree = "<group>"; };
+		972110241D6AC36A009B8941 /* LocalModeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalModeProtocol.h; sourceTree = "<group>"; };
+		972110251D6AC36A009B8941 /* LocalModeProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalModeProtocol.m; sourceTree = "<group>"; };
+		972110271D6AD174009B8941 /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
+		972110281D6AD174009B8941 /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
 		97A5F2241D669C9800AB64DC /* iotapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iotapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A5F2281D669C9800AB64DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		97A5F22A1D669C9800AB64DC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -31,6 +52,27 @@
 		97A5F2361D669C9900AB64DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97A5F2391D669C9900AB64DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97A5F23B1D669C9900AB64DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97A5F2451D66CD9500AB64DC /* OpenRESTfulClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenRESTfulClient.h; sourceTree = "<group>"; };
+		97A5F2461D66CD9500AB64DC /* OpenRESTfulClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenRESTfulClient.m; sourceTree = "<group>"; };
+		97A5F2491D66CDB400AB64DC /* IId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IId.h; sourceTree = "<group>"; };
+		97A5F24A1D66CDB400AB64DC /* IId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IId.m; sourceTree = "<group>"; };
+		97A5F24B1D66CDB400AB64DC /* IDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevice.h; sourceTree = "<group>"; };
+		97A5F24C1D66CDB400AB64DC /* IDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDevice.m; sourceTree = "<group>"; };
+		97A5F24D1D66CDB400AB64DC /* ISensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISensor.h; sourceTree = "<group>"; };
+		97A5F24E1D66CDB400AB64DC /* ISensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISensor.m; sourceTree = "<group>"; };
+		97A5F24F1D66CDB400AB64DC /* IAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAttribute.h; sourceTree = "<group>"; };
+		97A5F2501D66CDB400AB64DC /* IAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAttribute.m; sourceTree = "<group>"; };
+		97A5F2511D66CDB400AB64DC /* IRawdata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRawdata.h; sourceTree = "<group>"; };
+		97A5F2521D66CDB400AB64DC /* IRawdata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRawdata.m; sourceTree = "<group>"; };
+		97A5F2531D66CDB400AB64DC /* IProvision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IProvision.h; sourceTree = "<group>"; };
+		97A5F2541D66CDB400AB64DC /* IProvision.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IProvision.m; sourceTree = "<group>"; };
+		97A5F2551D66CDB400AB64DC /* IMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMessage.h; sourceTree = "<group>"; };
+		97A5F2561D66CDB400AB64DC /* IMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMessage.m; sourceTree = "<group>"; };
+		97A5F25F1D66CDCB00AB64DC /* device.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = device.png; sourceTree = "<group>"; };
+		97A5F2601D66CDCB00AB64DC /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
+		97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "iot-launch.jpg"; sourceTree = "<group>"; };
+		97A5F2651D66F01300AB64DC /* ConfigureProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigureProjectViewController.h; sourceTree = "<group>"; };
+		97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigureProjectViewController.m; sourceTree = "<group>"; };
 		E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9721102A1D6AD240009B8941 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				972110271D6AD174009B8941 /* Session.h */,
+				972110281D6AD174009B8941 /* Session.m */,
+			);
+			name = data;
+			sourceTree = "<group>";
+		};
 		97A5F21B1D669C9800AB64DC = {
 			isa = PBXGroup;
 			children = (
@@ -67,10 +118,14 @@
 		97A5F2261D669C9800AB64DC /* iotapp */ = {
 			isa = PBXGroup;
 			children = (
+				97A5F25E1D66CDBD00AB64DC /* images */,
+				97A5F2441D66CD6900AB64DC /* CHTIoT */,
 				97A5F22A1D669C9800AB64DC /* AppDelegate.h */,
 				97A5F22B1D669C9800AB64DC /* AppDelegate.m */,
 				97A5F22D1D669C9800AB64DC /* ViewController.h */,
 				97A5F22E1D669C9900AB64DC /* ViewController.m */,
+				97A5F2651D66F01300AB64DC /* ConfigureProjectViewController.h */,
+				97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */,
 				97A5F2301D669C9900AB64DC /* Main.storyboard */,
 				97A5F2361D669C9900AB64DC /* Assets.xcassets */,
 				97A5F2381D669C9900AB64DC /* LaunchScreen.storyboard */,
@@ -87,6 +142,52 @@
 				97A5F2281D669C9800AB64DC /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		97A5F2441D66CD6900AB64DC /* CHTIoT */ = {
+			isa = PBXGroup;
+			children = (
+				9721102A1D6AD240009B8941 /* data */,
+				97A5F2481D66CDA600AB64DC /* entity */,
+				97A5F2451D66CD9500AB64DC /* OpenRESTfulClient.h */,
+				97A5F2461D66CD9500AB64DC /* OpenRESTfulClient.m */,
+				972110211D6AC09D009B8941 /* ControllerClientBuilder.h */,
+				972110221D6AC09D009B8941 /* ControllerClientBuilder.m */,
+				972110241D6AC36A009B8941 /* LocalModeProtocol.h */,
+				972110251D6AC36A009B8941 /* LocalModeProtocol.m */,
+			);
+			name = CHTIoT;
+			sourceTree = "<group>";
+		};
+		97A5F2481D66CDA600AB64DC /* entity */ = {
+			isa = PBXGroup;
+			children = (
+				97A5F2491D66CDB400AB64DC /* IId.h */,
+				97A5F24A1D66CDB400AB64DC /* IId.m */,
+				97A5F24B1D66CDB400AB64DC /* IDevice.h */,
+				97A5F24C1D66CDB400AB64DC /* IDevice.m */,
+				97A5F24D1D66CDB400AB64DC /* ISensor.h */,
+				97A5F24E1D66CDB400AB64DC /* ISensor.m */,
+				97A5F24F1D66CDB400AB64DC /* IAttribute.h */,
+				97A5F2501D66CDB400AB64DC /* IAttribute.m */,
+				97A5F2511D66CDB400AB64DC /* IRawdata.h */,
+				97A5F2521D66CDB400AB64DC /* IRawdata.m */,
+				97A5F2531D66CDB400AB64DC /* IProvision.h */,
+				97A5F2541D66CDB400AB64DC /* IProvision.m */,
+				97A5F2551D66CDB400AB64DC /* IMessage.h */,
+				97A5F2561D66CDB400AB64DC /* IMessage.m */,
+			);
+			name = entity;
+			sourceTree = "<group>";
+		};
+		97A5F25E1D66CDBD00AB64DC /* images */ = {
+			isa = PBXGroup;
+			children = (
+				97A5F25F1D66CDCB00AB64DC /* device.png */,
+				97A5F2601D66CDCB00AB64DC /* loading.png */,
+				97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */,
+			);
+			name = images;
 			sourceTree = "<group>";
 		};
 		A78A9916E6965F138EC3C614 /* Frameworks */ = {
@@ -167,7 +268,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97A5F2641D66CDCB00AB64DC /* iot-launch.jpg in Resources */,
+				97A5F2631D66CDCB00AB64DC /* loading.png in Resources */,
 				97A5F23A1D669C9900AB64DC /* LaunchScreen.storyboard in Resources */,
+				97A5F2621D66CDCB00AB64DC /* device.png in Resources */,
 				97A5F2371D669C9900AB64DC /* Assets.xcassets in Resources */,
 				97A5F2321D669C9900AB64DC /* Main.storyboard in Resources */,
 			);
@@ -228,10 +332,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97A5F2571D66CDB400AB64DC /* IId.m in Sources */,
 				97A5F2351D669C9900AB64DC /* iotapp.xcdatamodeld in Sources */,
+				97A5F25B1D66CDB400AB64DC /* IRawdata.m in Sources */,
 				97A5F22F1D669C9900AB64DC /* ViewController.m in Sources */,
+				97A5F2471D66CD9500AB64DC /* OpenRESTfulClient.m in Sources */,
 				97A5F22C1D669C9800AB64DC /* AppDelegate.m in Sources */,
+				97A5F2581D66CDB400AB64DC /* IDevice.m in Sources */,
 				97A5F2291D669C9800AB64DC /* main.m in Sources */,
+				972110291D6AD174009B8941 /* Session.m in Sources */,
+				97A5F2671D66F01300AB64DC /* ConfigureProjectViewController.m in Sources */,
+				97A5F2591D66CDB400AB64DC /* ISensor.m in Sources */,
+				97A5F25C1D66CDB400AB64DC /* IProvision.m in Sources */,
+				97A5F25A1D66CDB400AB64DC /* IAttribute.m in Sources */,
+				972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */,
+				972110231D6AC09D009B8941 /* ControllerClientBuilder.m in Sources */,
+				97A5F25D1D66CDB400AB64DC /* IMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
