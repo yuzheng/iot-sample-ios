@@ -17,7 +17,7 @@
 }
 @property (nonatomic, strong, readonly) dispatch_queue_t udpSocketQueue;
 @property (nonatomic, strong, readonly) GCDAsyncUdpSocket *udpSocket;
-@property (nonatomic, strong, readonly) NSTimer *timer;
+//@property (nonatomic, strong, readonly) NSTimer *timer;
 
 @end
 
@@ -74,10 +74,13 @@
     NSData *connectData = [protocol buildConnectPacket];
     [_udpSocket sendData:connectData toHost:session.host port:10600 withTimeout:-1 tag:clock()];
     
-    
-    
-    // create thread to ping
-    _timer = [NSTimer scheduledTimerWithTimeInterval:keepalive target:self selector:@selector(doKeepalive:) userInfo:nil repeats:NO];
+    // create new timer with async ping call:
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //run function methodRunAfterBackground
+        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(doKeepalive:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    });
 }
 
 - (void)sendData:(NSData *)data toHost:(NSString *)host port:(int)port

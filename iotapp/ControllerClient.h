@@ -31,6 +31,7 @@
     
     NSTimeInterval keepalive;
     
+    NSTimer *timer;
 }
 
 @property (nonatomic, weak) id<ControllerClientDelegate> delegate;
