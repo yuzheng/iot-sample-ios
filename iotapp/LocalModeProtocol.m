@@ -7,7 +7,9 @@
 //  Copyright © 2016年 chttl. All rights reserved.
 //
 
+#import <CommonCrypto/CommonDigest.h>
 #import "LocalModeProtocol.h"
+
 
 #define MAGIC_HEAD_HI 0x0A4
 #define MAGIC_HEAD_LO 0x0B2
@@ -25,87 +27,127 @@
 #define COMMAND_WRITE_REPLY 0x8B
 #define ZERO_TAIL 0x0
 
+#define PACKET_MINIMUM_SIZE 6
+#define PACKET_MAGIC_HEADER_SIZE 2
+#define PACKET_LENGTH_SIZE 2
 
 @implementation LocalModeProtocol
 
-- (Byte*) readPacketBody:(NSData*) data {
-    NSData *bodyData = [data subdataWithRange:NSMakeRange(4, data.length-5)];
+- (NSError*) buildErrorWithDomain:(NSString*) domain code:(NSInteger) code message:(NSString*) message {
+    NSMutableDictionary* details = [NSMutableDictionary dictionary];
+    [details setValue:message forKey:NSLocalizedDescriptionKey];
     
-    NSUInteger bodyLen = [bodyData length];
-    Byte *byteBodyData = (Byte*)malloc(bodyLen);
-    memcpy(byteBodyData, [bodyData bytes], bodyLen);
-    
-    return byteBodyData;
+    // populate the error object with the details
+    return [NSError errorWithDomain:domain code:code userInfo:details];
 }
 
-- (NSData*) buildPacket:(NSData*) bodyData {
-    NSMutableData *packageData = [[NSMutableData alloc] init];
-    [packageData appendBytes:[self magicHeader] length:2];
-    [packageData appendBytes:[self bodyLength:(bodyData.length)] length:2];
-    [packageData appendData:bodyData];
-    NSInteger checksum =[self checksum:bodyData];
-    [packageData appendBytes:&checksum length:1];
-    [self showByteData:packageData];
-    return packageData;
-}
-
-- (NSData*) buildConnectPacket {
-    NSMutableData *bodyData = [[NSMutableData alloc] init];
-    [bodyData appendBytes:[self command:COMMAND_CONNECT_REQUEST] length:1];
+- (Boolean) checkPacket:(NSData*) data  error:(NSError **) error{
     
-    return [self buildPacket:bodyData];
+    return true;
 }
 
-- (NSString*) readString:(NSData*) data {
-    /*
-     * String vendor = "vendor";
-     * String model = "model";
-     * String series = "series";
-     * String name = "name";
-     */
-   
-    NSData *bodyData = [self getBodyData:data];
-    Byte* byte = [self byteOfData:bodyData];
-    int pos = 0;
-    for(int i=1 ;i <[data length]; i++){
-        //NSLog(@"%02X ",byte[i]);
-        if(byte[i] == ZERO_TAIL){
-            break;
+- (NSData*) readPacketBody:(NSData*) data  error:(NSError **) error{
+    // check packet size
+    if( data.length < PACKET_MINIMUM_SIZE ) {
+        *error = [self buildErrorWithDomain:@"packet" code:401 message:@"Packet size error!"];
+        return nil;
+    }else{
+        // check Magic Header
+        NSData *headerData = [data subdataWithRange:NSMakeRange(0, PACKET_MAGIC_HEADER_SIZE)];
+        Byte* headerByte = [self byteOfData:headerData];
+        if(headerByte[0] != MAGIC_HEAD_HI || headerByte[1] != MAGIC_HEAD_LO){
+            *error = [self buildErrorWithDomain:@"packet" code:402 message:@"Magic Header is illegal!"];
+            return nil;
         }else{
-            pos++;
+            NSData *lengthData = [data subdataWithRange:NSMakeRange(2, PACKET_LENGTH_SIZE)];
+            NSInteger length = [self getLength:lengthData];
+            
+            NSData *bodyData = [data subdataWithRange:NSMakeRange(4, length)];
+            
+            NSInteger checksum = [self checksum:bodyData];
+            
+            NSLog(@"checksum: %ld",(long)checksum);
+            
+            // check body size
+            if( (PACKET_MAGIC_HEADER_SIZE+PACKET_LENGTH_SIZE+length+1) != data.length ){
+                *error = [self buildErrorWithDomain:@"packet" code:403 message:@"Packet body size error!"];
+                return nil;
+            }else{
+                NSData *checksumData = [data subdataWithRange:NSMakeRange(4+length, 1)];
+                if(![checksumData isEqualToData:[[NSData alloc] initWithBytes:&checksum length:1]]){
+                    *error = [self buildErrorWithDomain:@"packet" code:404 message:@"Checksum is wrong!"];
+                    return nil;
+                }
+                
+                return bodyData;
+            }
         }
     }
-    NSLog(@"--- pos : %d ---",pos);
-    NSData *stringData = [bodyData subdataWithRange:NSMakeRange(1, pos)];
-    NSLog(@"string: %@",[NSString stringWithUTF8String:[stringData bytes]]);
-    
-    return [NSString stringWithUTF8String:[stringData bytes]];
 }
 
-- (Session*) getSession:(NSData *) bodyData {
-    Session *session = [Session new];
+- (Byte *) readCommond:(NSData *) bodyData {
+    if([bodyData length]>0){
+        NSData *commandData = [bodyData subdataWithRange:NSMakeRange(0, 1)];
+        Byte* byte = [self byteOfData:commandData];
+        [self showByteData:commandData];
+        return byte;
+    }
+    return nil;
+}
+
+- (LocalIntroduce*) readIntroduce:(NSData *) bodyData {
+    LocalIntroduce* introduce = [LocalIntroduce new];
+    NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
+    NSInteger epCipher = [self getZeroTailPosition:data]; //end pos of vendor
+    NSLog(@"epCipher: %ld",(long)epCipher);
+    if(epCipher > 0) {
+        NSData *cipherData = [data subdataWithRange:NSMakeRange(0, epCipher)];
+        introduce.cipher = [NSString stringWithUTF8String:[cipherData bytes]];
+    }else{
+        introduce.cipher = @"";
+    }
+    
+    data = [data subdataWithRange:NSMakeRange(epCipher+1, data.length-epCipher-1)];
+    NSInteger epExtra = [self getZeroTailPosition:data]; //end pos of model
+    if(epExtra > 0){
+        NSData *extraData = [data subdataWithRange:NSMakeRange(0, epExtra)];
+        introduce.extra = [NSString stringWithUTF8String:[extraData bytes]];
+    }else{
+        introduce.extra = @"";
+    }
+    return introduce;
+}
+
+- (NSString*) readSalt:(NSData *) bodyData {
+    NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
+    NSInteger epSalt = [self getZeroTailPosition:data]; //end pos of vendor
+    NSData *saltData = [data subdataWithRange:NSMakeRange(0, epSalt)];
+    return [NSString stringWithUTF8String:[saltData bytes]];
+}
+
+- (LocalSession*) getSession:(NSData *) bodyData {
+    LocalSession *session = [LocalSession new];
     //NSLog(@"bodyData length: %d", bodyData.length);
     NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
     NSInteger epVendor = [self getZeroTailPosition:data]; //end pos of vendor
     NSData *vendorData = [data subdataWithRange:NSMakeRange(0, epVendor)];
     session.vendor = [NSString stringWithUTF8String:[vendorData bytes]];
-    NSLog(@"vendor: %@",[NSString stringWithUTF8String:[vendorData bytes]]);
+    //NSLog(@"vendor: %@",[NSString stringWithUTF8String:[vendorData bytes]]);
     data = [data subdataWithRange:NSMakeRange(epVendor+1, data.length-epVendor-1)];
     NSInteger epModel = [self getZeroTailPosition:data]; //end pos of model
     NSData *modelData = [data subdataWithRange:NSMakeRange(0, epModel)];
     session.model = [NSString stringWithUTF8String:[modelData bytes]];
-    NSLog(@"model: %@",[NSString stringWithUTF8String:[modelData bytes]]);
+    //NSLog(@"model: %@",[NSString stringWithUTF8String:[modelData bytes]]);
     data = [data subdataWithRange:NSMakeRange(epModel+1, data.length-epModel-1)];
     NSInteger epSeries = [self getZeroTailPosition:data]; //end pos of model
     NSData *seriesData = [data subdataWithRange:NSMakeRange(0, epSeries)];
     session.series = [NSString stringWithUTF8String:[seriesData bytes]];
-    NSLog(@"series: %@",[NSString stringWithUTF8String:[seriesData bytes]]);
+    //NSLog(@"series: %@",[NSString stringWithUTF8String:[seriesData bytes]]);
     data = [data subdataWithRange:NSMakeRange(epSeries+1, data.length-epSeries-1)];
     NSInteger epName = [self getZeroTailPosition:data]; //end pos of model
     NSData *nameData = [data subdataWithRange:NSMakeRange(0, epName)];
     session.name = [NSString stringWithUTF8String:[nameData bytes]];
-    NSLog(@"series: %@",[NSString stringWithUTF8String:[nameData bytes]]);
-    
+    //NSLog(@"series: %@",[NSString stringWithUTF8String:[nameData bytes]]);
     
     return session;
 }
@@ -125,6 +167,70 @@
     return pos;
 }
 
+#pragma mark -
+#pragma mark build packet
+
+- (NSData*) buildPacket:(NSData*) bodyData {
+    NSMutableData *packageData = [[NSMutableData alloc] init];
+    [packageData appendBytes:[self magicHeader] length:2];
+    [packageData appendBytes:[self bodyLength:(bodyData.length)] length:2];
+    [packageData appendData:bodyData];
+    NSInteger checksum =[self checksum:bodyData];
+    [packageData appendBytes:&checksum length:1];
+    [self showByteData:packageData];
+    return packageData;
+}
+
+- (NSData*) buildConnectPacket {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_CONNECT_REQUEST] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildChallengeReplyPacket:(NSString *) salt apiKey:(NSString *) key {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    
+    NSString *sign = [NSString stringWithFormat:@"%@%@", salt, key];
+    const char *cStr = [sign UTF8String];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(cStr, strlen(cStr), digest);
+    
+    NSData *hashData = [[NSData alloc] initWithBytes:digest length: sizeof digest];
+    [self showByteData:hashData];
+    
+    [bodyData appendBytes:[self command:COMMAND_CHALLENGE_REPLY] length:1];
+    [bodyData appendData:hashData];
+    [bodyData appendBytes:[self command:ZERO_TAIL] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildIntroduceReplyPacket {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_INTRODUCE_REPLY] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildPingRequestPacket {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_PING_REQUEST] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildPingReplyPacket {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_PING_REPLY] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+
+#pragma mark -
+#pragma mark common
+
 - (Byte*) magicHeader {
     Byte *bytes = (Byte*)malloc(2);
     bytes[0]=MAGIC_HEAD_HI;
@@ -133,7 +239,7 @@
 }
 
 - (NSInteger) getLength:(NSData *) data {
-    Byte *byteData = [self byteOfData:[data subdataWithRange:NSMakeRange(2, 2)]];
+    Byte *byteData = [self byteOfData:data];
     return (NSInteger)(byteData[0] << 8 | byteData[1]);
 }
 
@@ -142,16 +248,7 @@
     return [self byteOfData:[data subdataWithRange:NSMakeRange(4, data.length-5)]];
 }
 
-- (Byte *) getCommond:(NSData *) data {
-    NSData *bodyData = [self getBodyData:data];
-    if([bodyData length]>0){
-        NSData *commandData = [bodyData subdataWithRange:NSMakeRange(0, 1)];
-        Byte* byte = [self byteOfData:commandData];
-        [self showByteData:commandData];
-        return byte;
-    }
-    return nil;
-}
+
 
 - (NSData*) getBodyData:(NSData *) data {
     return [data subdataWithRange:NSMakeRange(4, data.length-5)];

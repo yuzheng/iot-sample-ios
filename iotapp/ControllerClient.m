@@ -1,31 +1,38 @@
 //
-//  ControllerClientBuilder.m
+//  ControllerClient.m
 //  iotapp
 //
 //  Created by chttl on 2016/8/22.
 //  Copyright © 2016年 chttl. All rights reserved.
 //
 
-#import "ControllerClientBuilder.h"
+#import "ControllerClient.h"
 #import "GCDAsyncUdpSocket.h"
 #import "LocalModeProtocol.h"
 
-@interface ControllerClientBuilder() <GCDAsyncUdpSocketDelegate>
+@interface ControllerClient() <GCDAsyncUdpSocketDelegate>
 {
     LocalModeProtocol *protocol;
+    NSString *apiKey;
 }
 @property (nonatomic, strong, readonly) dispatch_queue_t udpSocketQueue;
 @property (nonatomic, strong, readonly) GCDAsyncUdpSocket *udpSocket;
+@property (nonatomic, strong, readonly) NSTimer *timer;
 
 @end
 
-@implementation ControllerClientBuilder
+@implementation ControllerClient
 
 - (instancetype)init
 {
     if (self = [super init]) {
+        
+        apiKey = @"PK1G27KG0PUFFTGBX0";
+        authenticated = false;
+        keepalive = 6.0; //second
+        
         protocol = [LocalModeProtocol new];
-        _udpSocketQueue = dispatch_queue_create("com.cht.iot.local.queue", DISPATCH_QUEUE_SERIAL);
+        _udpSocketQueue = dispatch_queue_create("com.cht.iot.controller.queue", DISPATCH_QUEUE_SERIAL);
         _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:_udpSocketQueue];
         // avoid receiving two times
         [_udpSocket setIPv4Enabled:YES];
@@ -39,9 +46,9 @@
     _udpSocket.delegate = nil;
     _udpSocket = nil;
 }
-
-- (void)setupAnnouncementSocket:(uint16_t)port;
+- (void)setupSocket:(uint16_t)port
 {
+    NSLog(@"ControllerClient port:%d",port);
     NSError *error = nil;
     if (![_udpSocket bindToPort:port error:&error]) {
         NSLog(@"Error binding: %@", error);
@@ -56,8 +63,21 @@
     NSLog(@"setupUdpSocket Ready");
 }
 
-- (void)closeAnnouncementSocket{
-    [_udpSocket close];
+- (void)setKeepalive:(double)time {
+    keepalive = time;
+}
+
+- (void)linkController:(LocalSession *) linksession
+{
+    session = linksession;
+    NSLog(@"linkController:%@ : %hu",session.host, session.port);
+    NSData *connectData = [protocol buildConnectPacket];
+    [_udpSocket sendData:connectData toHost:session.host port:10600 withTimeout:-1 tag:clock()];
+    
+    
+    
+    // create thread to ping
+    _timer = [NSTimer scheduledTimerWithTimeInterval:keepalive target:self selector:@selector(doKeepalive:) userInfo:nil repeats:NO];
 }
 
 - (void)sendData:(NSData *)data toHost:(NSString *)host port:(int)port
@@ -69,6 +89,15 @@
 - (void)sendData:(NSData *)data toHost:(NSString *)host port:(int)port tag:(long)tag
 {
     [_udpSocket sendData:data toHost:host port:port withTimeout:-1 tag:tag];
+}
+
+- (void) doKeepalive:(NSTimer *)timer {
+
+    NSLog(@"doKeepalive");
+    if(authenticated){
+        NSData *replyData = [protocol buildPingRequestPacket];
+        [_udpSocket sendData:replyData toHost:session.host port:10600 withTimeout:-1 tag:clock()];
+    }
 }
 
 #pragma mark - GCDAsyncUdpSocketDelegate
@@ -95,6 +124,7 @@
  **/
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotConnect:(NSError *)error
 {
+    
 }
 
 /**
@@ -122,9 +152,9 @@
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
 {
     // 獲取設備端socket的host與port
-    NSString *controllerHost = nil;
-    uint16_t controllerPort = 10600;
-    [GCDAsyncUdpSocket getHost:&controllerHost port:&controllerPort fromAddress:address];
+    //NSString *controllerHost = nil;
+    //uint16_t controllerPort = 10600;
+    //[GCDAsyncUdpSocket getHost:&controllerHost port:&controllerPort fromAddress:address];
     
     //NSLog(@"didReceiveData: %ld",(unsigned long)data.length);
     
@@ -134,26 +164,40 @@
     if(error != nil){
         NSLog(@"Error of readPacketBody: %@",error);
     }else{
-    
-    //NSData *bodyData = [protocol getBodyData:[data mutableCopy]];
         //[protocol showByteData:[data mutableCopy]];
         
         Byte* command = [protocol readCommond:bodyData];
         //NSLog(@"%lu", sizeof(command)); // 1 Byte > 4 size
-        if(command[0] == COMMAND_ANNOUNCE){
+        if(command[0] == COMMAND_CHALLENGE_REQUEST){
+            NSLog(@"COMMAND_CHALLENGE_REQUEST");
             
-            LocalSession *session = [protocol getSession:bodyData];
-            session.host = controllerHost;
-            session.port = 10600;
+            NSString *salt = [protocol readSalt:bodyData];
+            //NSLog(@"salt: %@", salt);
             
-            //NSLog(@"find :%@/%@/%@/%@",session.vendor, session.model, session.series, session.name);
+            NSData *challengeData = [protocol buildChallengeReplyPacket:salt apiKey:apiKey];
+            [_udpSocket sendData:challengeData toHost:session.host port:10600 withTimeout:-1 tag:clock()];
             
-            if (self.delegate && [self.delegate respondsToSelector:@selector(findController:)])
-            {
-                [self.delegate findController:session];
+        }else if(command[0] == COMMAND_INTRODUCE_REQUEST){
+            NSLog(@"COMMAND_INTRODUCE_REQUEST");
+            
+            LocalIntroduce* introduce = [protocol readIntroduce:bodyData];
+            NSLog(@"introduce: %@/%@", introduce.cipher, introduce.extra);
+            
+            @synchronized (session) {
+                authenticated = true;
             }
-        }else{
-            NSLog(@"Receive the incorrect packet from %@ %i",controllerHost,controllerPort);
+            
+            NSData *replyData = [protocol buildIntroduceReplyPacket];
+            [_udpSocket sendData:replyData toHost:session.host port:10600 withTimeout:-1 tag:clock()];
+            
+        }else if(command[0] == COMMAND_PING_REPLY){
+            NSLog(@"COMMAND_PING_REPLY");
+        }else if(command[0] == COMMAND_READ_REPLY){
+            NSLog(@"COMMAND_READ_REPLY");
+            
+        }else if(command[0] == COMMAND_WRITE_REPLY){
+            NSLog(@"COMMAND_WRITE_REPLY");
+            
         }
     }
 }
@@ -163,7 +207,7 @@
  **/
 - (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error
 {
-    NSLog(@"Annoument Socket DidClose: %@", error);
+    NSLog(@"Socket DidClose: %@", error);
 }
 
 @end

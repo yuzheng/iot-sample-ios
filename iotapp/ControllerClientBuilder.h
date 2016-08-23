@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Session.h"
+#import "LocalSession.h"
 
 @class ControllerClientBuilder;
 
 @protocol ControllerClientBuilderDelegate <NSObject>
 
-- (void)findController:(Session*) session;
+- (void)findController:(LocalSession*) session;
 
 @end
 
@@ -22,5 +22,5 @@
 @property (nonatomic, weak) id<ControllerClientBuilderDelegate> delegate;
 
 - (void)setupAnnouncementSocket:(uint16_t)port;
-
+- (void)closeAnnouncementSocket;
 @end

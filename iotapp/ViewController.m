@@ -7,11 +7,13 @@
 //
 
 #import "ViewController.h"
+#import "ControllerClient.h"
 #import "ControllerClientBuilder.h"
 
-@interface ViewController () <ControllerClientBuilderDelegate>
+@interface ViewController () <ControllerClientBuilderDelegate, ControllerClientDelegate>
 
 @property (nonatomic, strong, readonly) ControllerClientBuilder *udpConnection;
+@property (nonatomic, strong, readonly) ControllerClient *udpCotroller;
 //@property (nonatomic, strong, readonly) ControllerClient *client;
 
 @end
@@ -32,6 +34,8 @@
 - (void) testClient {
     NSLog(@"testClient");
     
+    sessions = [[NSMutableArray alloc] init];
+    
     _udpConnection = [[ControllerClientBuilder alloc] init];
     _udpConnection.delegate = self;
     [_udpConnection setupAnnouncementSocket:10400];
@@ -42,6 +46,9 @@
     
         //[_client connectWithPort:10400];
     //});
+    _udpCotroller = [[ControllerClient alloc] init];
+    _udpCotroller.delegate = self;
+    [_udpCotroller setupSocket:0];
     
 }
 
@@ -63,10 +70,25 @@
     }
 }
 
-- (void)findController:(Session*)session{
+- (void)findController:(LocalSession*)session{
     NSLog(@"findController: %@/%@/%@/%@",session.vendor, session.model, session.series, session.name);
-
+    //[_udpConnection closeAnnouncementSocket];
     
+    if(![self existsSession:session]){
+        NSLog(@" Find new controller!");
+        [_udpCotroller linkController:session];
+        [sessions addObject:session];
+    }
+    
+}
+
+- (Boolean) existsSession:(LocalSession*) session {
+    for(LocalSession* msession in sessions){
+        if([msession isEqual:session]){
+            return true;
+        }
+    }
+    return false;
 }
 
 /*

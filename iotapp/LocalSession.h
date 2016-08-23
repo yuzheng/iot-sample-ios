@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Session : NSObject
+@interface LocalSession : NSObject
 @property (strong, nonatomic) NSString* vendor;
 @property (strong, nonatomic) NSString* model;
 @property (strong, nonatomic) NSString* series;
@@ -16,4 +16,5 @@
 
 @property (strong, nonatomic) NSString* host;
 @property (nonatomic) uint16_t port;
+
 @end
