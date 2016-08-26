@@ -41,6 +41,11 @@ typedef NS_ENUM(Byte, LocalModeProtocolCommand) {
 - (NSData*) buildIntroduceReplyPacket;
 - (NSData*) buildPingRequestPacket;
 - (NSData*) buildPingReplyPacket;
+// TODO
+- (NSData*) buildReadRequestPacket:(NSString *) deviceId sensor:(NSString *) sensorId;
+- (NSData*) buildReadReplyPacket;
+- (NSData*) buildWriteRequestPacket:(NSString *) deviceId sensor:(NSString *) sensorId value:(NSArray*) values;
+- (NSData*) buildWriteReplyPacket;
 
 
 - (void) showByteData:(NSData*) data;

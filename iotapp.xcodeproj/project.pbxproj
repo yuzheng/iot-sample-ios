@@ -32,6 +32,7 @@
 		97A5F2641D66CDCB00AB64DC /* iot-launch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */; };
 		97A5F2671D66F01300AB64DC /* ConfigureProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */; };
 		97C2E9D31D6C0E22007143AF /* LocalIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C2E9D21D6C0E22007143AF /* LocalIntroduce.m */; };
+		97FD57EB1D6E7782009DC65B /* DeviceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD57EA1D6E7782009DC65B /* DeviceTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,8 @@
 		97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigureProjectViewController.m; sourceTree = "<group>"; };
 		97C2E9D11D6C0E22007143AF /* LocalIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalIntroduce.h; sourceTree = "<group>"; };
 		97C2E9D21D6C0E22007143AF /* LocalIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalIntroduce.m; sourceTree = "<group>"; };
+		97FD57E91D6E7782009DC65B /* DeviceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceTableViewCell.h; sourceTree = "<group>"; };
+		97FD57EA1D6E7782009DC65B /* DeviceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTableViewCell.m; sourceTree = "<group>"; };
 		E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +135,8 @@
 				97A5F22B1D669C9800AB64DC /* AppDelegate.m */,
 				97A5F22D1D669C9800AB64DC /* ViewController.h */,
 				97A5F22E1D669C9900AB64DC /* ViewController.m */,
+				97FD57E91D6E7782009DC65B /* DeviceTableViewCell.h */,
+				97FD57EA1D6E7782009DC65B /* DeviceTableViewCell.m */,
 				97A5F2651D66F01300AB64DC /* ConfigureProjectViewController.h */,
 				97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */,
 				97A5F2301D669C9900AB64DC /* Main.storyboard */,
@@ -359,6 +364,7 @@
 				972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */,
 				972110231D6AC09D009B8941 /* ControllerClientBuilder.m in Sources */,
 				9721102D1D6B568A009B8941 /* ControllerClient.m in Sources */,
+				97FD57EB1D6E7782009DC65B /* DeviceTableViewCell.m in Sources */,
 				97A5F25D1D66CDB400AB64DC /* IMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

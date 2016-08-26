@@ -10,15 +10,26 @@
 #import "LocalSession.h"
 #import "GCDAsyncUdpSocket.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray<LocalSession*> *sessions;
+    
+    NSString *projectKey;
+    NSString *deviceId;
+    NSArray *sensorIds;
+    
+    NSInteger selectedTag;
+    
 }
+@property (weak, nonatomic) IBOutlet UITableView *localDevicesTableView;
 
+@property (weak, nonatomic) IBOutlet UIView *deviceView;
+@property (weak, nonatomic) IBOutlet UISwitch *sensorSwitch;
+- (IBAction)onSwitchChanged:(id)sender;
+- (IBAction)onRefreshClick:(id)sender;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *btnGo;
 - (IBAction)onGo:(id)sender;
 
 @end
-

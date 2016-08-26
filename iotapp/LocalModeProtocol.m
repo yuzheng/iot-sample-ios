@@ -55,7 +55,7 @@
         // check Magic Header
         NSData *headerData = [data subdataWithRange:NSMakeRange(0, PACKET_MAGIC_HEADER_SIZE)];
         Byte* headerByte = [self byteOfData:headerData];
-        if(headerByte[0] != MAGIC_HEAD_HI || headerByte[1] != MAGIC_HEAD_LO){
+        if(headerByte[0] != MAGIC_HEAD_HI || headerByte[1] != MAGIC_HEAD_LO) {
             *error = [self buildErrorWithDomain:@"packet" code:402 message:@"Magic Header is illegal!"];
             return nil;
         }else{
@@ -66,7 +66,7 @@
             
             NSInteger checksum = [self checksum:bodyData];
             
-            NSLog(@"checksum: %ld",(long)checksum);
+            //NSLog(@"checksum: %ld",(long)checksum);
             
             // check body size
             if( (PACKET_MAGIC_HEADER_SIZE+PACKET_LENGTH_SIZE+length+1) != data.length ){
@@ -89,7 +89,7 @@
     if([bodyData length]>0){
         NSData *commandData = [bodyData subdataWithRange:NSMakeRange(0, 1)];
         Byte* byte = [self byteOfData:commandData];
-        [self showByteData:commandData];
+        //[self showByteData:commandData];
         return byte;
     }
     return nil;
@@ -102,7 +102,8 @@
     NSLog(@"epCipher: %ld",(long)epCipher);
     if(epCipher > 0) {
         NSData *cipherData = [data subdataWithRange:NSMakeRange(0, epCipher)];
-        introduce.cipher = [NSString stringWithUTF8String:[cipherData bytes]];
+        introduce.cipher = [self getStringFromData:cipherData];
+        //introduce.cipher = [NSString stringWithUTF8String:[cipherData bytes]];
     }else{
         introduce.cipher = @"";
     }
@@ -111,7 +112,8 @@
     NSInteger epExtra = [self getZeroTailPosition:data]; //end pos of model
     if(epExtra > 0){
         NSData *extraData = [data subdataWithRange:NSMakeRange(0, epExtra)];
-        introduce.extra = [NSString stringWithUTF8String:[extraData bytes]];
+        introduce.extra = [self getStringFromData:extraData];
+        //introduce.extra = [NSString stringWithUTF8String:[extraData bytes]];
     }else{
         introduce.extra = @"";
     }
@@ -122,7 +124,8 @@
     NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
     NSInteger epSalt = [self getZeroTailPosition:data]; //end pos of vendor
     NSData *saltData = [data subdataWithRange:NSMakeRange(0, epSalt)];
-    return [NSString stringWithUTF8String:[saltData bytes]];
+    //return [NSString stringWithUTF8String:[saltData bytes]];
+    return [self getStringFromData:saltData];
 }
 
 - (LocalSession*) getSession:(NSData *) bodyData {
@@ -131,25 +134,36 @@
     NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
     NSInteger epVendor = [self getZeroTailPosition:data]; //end pos of vendor
     NSData *vendorData = [data subdataWithRange:NSMakeRange(0, epVendor)];
-    session.vendor = [NSString stringWithUTF8String:[vendorData bytes]];
+    session.vendor = [self getStringFromData:vendorData];
+    //session.vendor = [NSString stringWithUTF8String:[vendorData bytes]];
     //NSLog(@"vendor: %@",[NSString stringWithUTF8String:[vendorData bytes]]);
+    
     data = [data subdataWithRange:NSMakeRange(epVendor+1, data.length-epVendor-1)];
     NSInteger epModel = [self getZeroTailPosition:data]; //end pos of model
     NSData *modelData = [data subdataWithRange:NSMakeRange(0, epModel)];
-    session.model = [NSString stringWithUTF8String:[modelData bytes]];
+    session.model = [self getStringFromData:modelData];
+    //session.model = [NSString stringWithUTF8String:[modelData bytes]];
     //NSLog(@"model: %@",[NSString stringWithUTF8String:[modelData bytes]]);
+    
     data = [data subdataWithRange:NSMakeRange(epModel+1, data.length-epModel-1)];
     NSInteger epSeries = [self getZeroTailPosition:data]; //end pos of model
     NSData *seriesData = [data subdataWithRange:NSMakeRange(0, epSeries)];
-    session.series = [NSString stringWithUTF8String:[seriesData bytes]];
+    session.series = [self getStringFromData:seriesData];
+    //session.series = [NSString stringWithUTF8String:[seriesData bytes]];
     //NSLog(@"series: %@",[NSString stringWithUTF8String:[seriesData bytes]]);
+    
     data = [data subdataWithRange:NSMakeRange(epSeries+1, data.length-epSeries-1)];
     NSInteger epName = [self getZeroTailPosition:data]; //end pos of model
     NSData *nameData = [data subdataWithRange:NSMakeRange(0, epName)];
-    session.name = [NSString stringWithUTF8String:[nameData bytes]];
-    //NSLog(@"series: %@",[NSString stringWithUTF8String:[nameData bytes]]);
+    session.name = [self getStringFromData:nameData];
+    //session.name = [NSString stringWithUTF8String:[nameData bytes]];
+    //NSLog(@"series: %@",session.name);
     
     return session;
+}
+
+- (NSString*) getStringFromData:(NSData*) data{
+    return [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
 }
 
 - (NSInteger) getZeroTailPosition:(NSData *) data {
@@ -177,7 +191,7 @@
     [packageData appendData:bodyData];
     NSInteger checksum =[self checksum:bodyData];
     [packageData appendBytes:&checksum length:1];
-    [self showByteData:packageData];
+    //[self showByteData:packageData];
     return packageData;
 }
 
@@ -223,6 +237,54 @@
 - (NSData*) buildPingReplyPacket {
     NSMutableData *bodyData = [[NSMutableData alloc] init];
     [bodyData appendBytes:[self command:COMMAND_PING_REPLY] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildReadRequestPacket:(NSString *) deviceId sensor:(NSString *) sensorId {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_READ_REQUEST] length:1];
+    
+    [bodyData appendData:[deviceId dataUsingEncoding:NSUTF8StringEncoding]];
+    [bodyData appendBytes:[self command:ZERO_TAIL] length:1];
+    
+    [bodyData appendData:[sensorId dataUsingEncoding:NSUTF8StringEncoding]];
+    [bodyData appendBytes:[self command:ZERO_TAIL] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildReadReplyPacket {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_READ_REPLY] length:1];
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildWriteRequestPacket:(NSString *) deviceId sensor:(NSString *) sensorId value:(NSArray*) values {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_WRITE_REQUEST] length:1];
+    
+    [bodyData appendData:[deviceId dataUsingEncoding:NSUTF8StringEncoding]];
+    [bodyData appendBytes:[self command:ZERO_TAIL] length:1];
+    
+    [bodyData appendData:[sensorId dataUsingEncoding:NSUTF8StringEncoding]];
+    [bodyData appendBytes:[self command:ZERO_TAIL] length:1];
+    
+    NSInteger count = [values count] & 0x0FF;
+    [bodyData appendBytes:&count length:1];
+    
+    for(NSString *value in values){
+        [bodyData appendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
+        [bodyData appendBytes:[self command:ZERO_TAIL] length:1];
+    }
+    
+    return [self buildPacket:bodyData];
+}
+
+- (NSData*) buildWriteReplyPacket {
+    NSMutableData *bodyData = [[NSMutableData alloc] init];
+    [bodyData appendBytes:[self command:COMMAND_WRITE_REPLY] length:1];
     
     return [self buildPacket:bodyData];
 }

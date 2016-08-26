@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "DeviceTableViewCell.h"
 #import "ControllerClient.h"
 #import "ControllerClientBuilder.h"
 
@@ -22,8 +23,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    [self testClient];
+    
+    self.localDevicesTableView.dataSource = self;
+    self.localDevicesTableView.delegate = self;
+    
+    // set projectKey, device, sensor
+    projectKey = @"PKY9H2EBYMRF9RST2R"; //@"DKRHF4KM29RXM27X3M";
+    
+    // set my device info
+    deviceId = @"693590269"; //@"799538117";
+    sensorIds = @[@"sensor01"]; //@[@"led"];
+    
+    [self startClient];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,30 +42,133 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) testClient {
-    NSLog(@"testClient");
-    
+- (void) startClient {
+    // initial the sessions of discover controllers
     sessions = [[NSMutableArray alloc] init];
     
     _udpConnection = [[ControllerClientBuilder alloc] init];
     _udpConnection.delegate = self;
     [_udpConnection setupAnnouncementSocket:10400];
+}
+
+- (Boolean) existsSession:(LocalSession*) session {
+    for(LocalSession* msession in sessions){
+        if([msession isEqual:session]){
+            return true;
+        }
+    }
+    return false;
+}
+
+#pragma mark -
+#pragma mark ControllerClientBuilderDelegate
+
+- (void)findController:(LocalSession*) session{
+    NSLog(@"findController: %@/%@/%@/%@",session.vendor, session.model, session.series, session.name);
+    //[_udpConnection closeAnnouncementSocket];
     
-    //dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    //dispatch_async(q, ^{
-        //_client = [[ControllerClient alloc] init];
+    if( ![self existsSession:session] ) {
+        NSLog(@" Find new controller!");
+        _udpCotroller = [[ControllerClient alloc] init];
+        _udpCotroller.delegate = self;
+        [_udpCotroller setupSocket:session.port];
+        //[_udpCotroller setApiKey:projectKey];
+        // just for testing
+        deviceId = session.series;
+        sensorIds = @[session.name];
+        [_udpCotroller setApiKey:session.model];
+        // just for testing
+        [_udpCotroller linkController:session];
+        
+        [sessions addObject:session];
+        
+        [self.localDevicesTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    }
+}
+
+#pragma mark -
+#pragma mark ControllerClientDelegate
+//連接成功
+- (void) didConnectToController {
     
-        //[_client connectWithPort:10400];
-    //});
-    _udpCotroller = [[ControllerClient alloc] init];
-    _udpCotroller.delegate = self;
-    [_udpCotroller setupSocket:0];
+}
+//連接失敗的代理
+- (void) didDisconnectWithError:(NSError *)error {
     
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 
-#pragma mark - test functions
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [sessions count];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80.0f;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger index = indexPath.row;
+    
+    NSString *cellIdentifier = @"deviceCell";
+    
+    DeviceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    [cell initSessionCell: sessions[index]];
+    cell.tag = index;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Push to TripInfoViewController;
+    selectedTag = [tableView cellForRowAtIndexPath:indexPath].tag;
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    /*
+    if([sessions count]>0){
+        [self performSegueWithIdentifier:@"deviceSegue" sender:self];
+    }
+     */
+}
+
+#pragma mark -
+#pragma mark action handle
+
+- (IBAction)onSwitchChanged:(UISwitch* ) switchState {
+    NSLog(@"on switch changed");
+    
+    NSArray* values = @[@"0"];
+    if ([switchState isOn]) {
+        values = @[@"1"];
+    } else {
+        values = @[@"0"];
+    }
+    [_udpCotroller writeDevice:deviceId sensor:sensorIds[0] value:values];
+}
+
+- (IBAction)onRefreshClick:(id)sender {
+    NSLog(@"on refresh click");
+    [_udpCotroller readDevice:deviceId sensor:sensorIds[0]];
+}
+
+#pragma mark - 
+#pragma mark jsut for testing
 
 - (IBAction)onGo:(id)sender {
     [self performSegueWithIdentifier:@"segueConfigureProject" sender:self];
@@ -69,43 +183,5 @@
         // ...
     }
 }
-
-- (void)findController:(LocalSession*)session{
-    NSLog(@"findController: %@/%@/%@/%@",session.vendor, session.model, session.series, session.name);
-    //[_udpConnection closeAnnouncementSocket];
-    
-    if(![self existsSession:session]){
-        NSLog(@" Find new controller!");
-        [_udpCotroller linkController:session];
-        [sessions addObject:session];
-    }
-    
-}
-
-- (Boolean) existsSession:(LocalSession*) session {
-    for(LocalSession* msession in sessions){
-        if([msession isEqual:session]){
-            return true;
-        }
-    }
-    return false;
-}
-
-/*
-#pragma mark -
-//連結成功
-- (void)socketDidConnectToAddress:(NSData*)address
-{
-    NSLog(@"socketDidConnectToAddress");
-}
-//連結失敗的代理,外界操作处理,比如停止发送心跳包,申请重连
-- (void)socketDidDisconnectWithError:(NSError*)error{
-    NSLog(@"socketDidDisconnectWithError");
-    
-}
-//读取Socket数据
-
-*/
-
 
 @end

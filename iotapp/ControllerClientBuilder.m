@@ -142,7 +142,7 @@
         //NSLog(@"%lu", sizeof(command)); // 1 Byte > 4 size
         if(command[0] == COMMAND_ANNOUNCE){
             
-            LocalSession *session = [protocol getSession:bodyData];
+            LocalSession *session = [protocol getSession:[bodyData mutableCopy]];
             session.host = controllerHost;
             session.port = 10600;
             
