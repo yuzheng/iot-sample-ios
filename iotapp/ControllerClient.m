@@ -65,6 +65,22 @@
     _udpSocket.delegate = nil;
     _udpSocket = nil;
 }
+
+- (void) close
+{
+    if(timerAlive != nil){
+        [timerAlive invalidate];
+        timerAlive = nil;
+    }
+    
+    if(timerAck != nil){
+        [timerAck invalidate];
+        timerAck = nil;
+    }
+    
+    [_udpSocket close];
+}
+
 - (void)setupSocket:(uint16_t)port
 {
     NSLog(@"ControllerClient port:%d",port);
@@ -146,7 +162,19 @@
             [[NSRunLoop currentRunLoop] addTimer:timerAck forMode:NSDefaultRunLoopMode];
             [[NSRunLoop currentRunLoop] run];
         }else{
-            NSLog(@"Need close this socket");
+            NSLog(@"Disconnect this socket");
+            
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didDisconnectWithError:)])
+            {
+                NSMutableDictionary* details = [NSMutableDictionary dictionary];
+                [details setValue:@"Disconnect" forKey:NSLocalizedDescriptionKey];
+                
+                NSError *error = [NSError errorWithDomain:@"Disconnect" code:400 userInfo:details];
+                [self.delegate didDisconnectWithError:error];
+            }
+            
+            // close
+            [self close];
         }
     });
 }
@@ -158,7 +186,6 @@
 
 - (void) doCloseAckTimer {
     if(timerAck != nil) {
-        NSLog(@"timerAck: need to close!");
         [timerAck invalidate];
         timerAck = nil;
     }
@@ -190,6 +217,7 @@
     NSData *readData = [protocol buildReadRequestPacket:deviceId sensor:sensorId];
     [self sendData:readData toHost:session.host port:session.port];
 }
+
 - (void)writeDevice:(NSString*) deviceId sensor:(NSString*) sensorId value:(NSArray*) values
 {
     NSData *writeData = [protocol buildWriteRequestPacket:deviceId sensor:sensorId value:values];
@@ -295,6 +323,12 @@
             
             [self sendData:replyData toHost:session.host port:session.port];
             //[_udpSocket sendData:replyData toHost:session.host port:session.port withTimeout:-1 tag:clock()];
+            
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didConnectToController)])
+            {
+                //[self.delegate findController:session];
+                [self.delegate didConnectToController];
+            }
             
         } else if(command[0] == COMMAND_PING_REPLY) {
             NSLog(@"COMMAND_PING_REPLY");

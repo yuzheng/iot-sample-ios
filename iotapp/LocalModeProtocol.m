@@ -112,16 +112,17 @@
     NSData *countData = [data subdataWithRange:NSMakeRange(epSensor+1, 1)];
     int count = [self getCount:countData];
     //[self showByteData:countData];
-    //NSLog(@"read count:%d",count);
+    NSLog(@"read count:%d",count);
     
     if(count > 0){
         
-        int lengthOfPreviousData = epDevice + 1; // add count byte
+        int lengthOfPreviousData = epSensor + 1; // add count byte
         NSMutableArray *value = [[NSMutableArray alloc] init];
         for(int i=0; i<count; i++){
             data = [data subdataWithRange:NSMakeRange(lengthOfPreviousData+1, data.length-lengthOfPreviousData-1)];
             NSInteger epValue = [self getZeroTailPosition:data]; //end pos of model
             NSData *valueData = [data subdataWithRange:NSMakeRange(0, epValue)];
+            NSLog(@"value data: %@", [self getStringFromData:valueData]);
             [value addObject:[self getStringFromData:valueData]];
             
             lengthOfPreviousData = epValue;

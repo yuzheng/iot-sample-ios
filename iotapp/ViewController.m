@@ -90,17 +90,32 @@
 #pragma mark ControllerClientDelegate
 //連接成功
 - (void) didConnectToController {
-    NSLog(@"Connect to controller : success");
+    NSLog(@" =====> Connect to controller : success");
+    // connected to ask controller state
+    [_udpCotroller readDevice:deviceId sensor:sensorIds[0]];
 }
 //連接失敗的代理
 - (void) didDisconnectWithError:(NSError *)error {
-    NSLog(@" >.< Disconnect to controller : %@", error);
+    NSLog(@" =====>  >.< Disconnect to controller : %@", error);
 }
 
 //- (void)didReceivedWriteData:(NSString *) rDeviceId sensor:(NSString*) rSensorId value:(NSArray*) value {
 - (void)didReceivedData:(IRawdata *) data {
     NSLog(@" Received Data: %@ / %@", data.deviceId, data.id);
     
+    //custom handle
+    NSArray *value = data.value;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if([value count] >0) {
+            if([value[0] isEqual:@"1"] || [value[0] isEqualToString:@"on"]){
+                [self.sensorSwitch setOn:true];
+            }else{
+                [self.sensorSwitch setOn:false];
+            }
+        }else{
+            [self.sensorSwitch setOn:false];
+        }
+    });
 }
 
 #pragma mark -
