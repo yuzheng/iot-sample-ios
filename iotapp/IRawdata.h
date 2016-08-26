@@ -12,7 +12,7 @@
 
 @interface IRawdata : NSObject
 
-@property (strong, nonatomic) NSString* id;
+@property (strong, nonatomic) NSString* id;   //sensorId
 @property (strong, nonatomic) NSString* deviceId;
 @property (strong, nonatomic) NSString* time;
 @property (strong, nonatomic) NSNumber* lat;

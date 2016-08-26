@@ -183,6 +183,8 @@
     }
 }
 
+#pragma mark -
+#pragma mark read/write
 - (void)readDevice:(NSString*) deviceId sensor:(NSString*) sensorId
 {
     NSData *readData = [protocol buildReadRequestPacket:deviceId sensor:sensorId];
@@ -297,7 +299,7 @@
         } else if(command[0] == COMMAND_PING_REPLY) {
             NSLog(@"COMMAND_PING_REPLY");
             
-            [self doCloseAckTimer];
+            [self resetAck];
             
         } else if(command[0] == COMMAND_READ_REPLY) {
             NSLog(@"COMMAND_READ_REPLY");
@@ -305,7 +307,16 @@
         } else if(command[0] == COMMAND_WRITE_REQUEST) {
             NSLog(@"COMMAND_WRITE_REQUEST");
             
+            //if (self.delegate && [self.delegate respondsToSelector:@selector(didReceivedWriteData:sensor:value:)])
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didReceivedData:)])
+            {
+                //[self.delegate findController:session];
+                [self.delegate didReceivedData:[protocol readWriteData:bodyData]];
+            }
             
+            NSData *replyData = [protocol buildWriteReplyPacket];
+            [self sendData:replyData toHost:session.host port:session.port];
+
             
         } else if(command[0] == COMMAND_WRITE_REPLY) {
             NSLog(@"COMMAND_WRITE_REPLY");

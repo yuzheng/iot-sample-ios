@@ -95,6 +95,47 @@
     return nil;
 }
 
+- (IRawdata*) readWriteData:(NSData *) bodyData {
+    IRawdata* writeData = [IRawdata new];
+    // deviceId/sensorId/count/[value]
+    NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
+    NSInteger epDevice = [self getZeroTailPosition:data]; //end pos of vendor
+    NSData *deviceData = [data subdataWithRange:NSMakeRange(0, epDevice)];
+    writeData.deviceId = [self getStringFromData:deviceData];
+    
+    data = [data subdataWithRange:NSMakeRange(epDevice+1, data.length-epDevice-1)];
+    NSInteger epSensor = [self getZeroTailPosition:data]; //end pos of model
+    NSData *sensorData = [data subdataWithRange:NSMakeRange(0, epSensor)];
+    writeData.id = [self getStringFromData:sensorData];
+    
+    // read count
+    NSData *countData = [data subdataWithRange:NSMakeRange(epSensor+1, 1)];
+    int count = [self getCount:countData];
+    //[self showByteData:countData];
+    //NSLog(@"read count:%d",count);
+    
+    if(count > 0){
+        
+        int lengthOfPreviousData = epDevice + 1; // add count byte
+        NSMutableArray *value = [[NSMutableArray alloc] init];
+        for(int i=0; i<count; i++){
+            data = [data subdataWithRange:NSMakeRange(lengthOfPreviousData+1, data.length-lengthOfPreviousData-1)];
+            NSInteger epValue = [self getZeroTailPosition:data]; //end pos of model
+            NSData *valueData = [data subdataWithRange:NSMakeRange(0, epValue)];
+            [value addObject:[self getStringFromData:valueData]];
+            
+            lengthOfPreviousData = epValue;
+        }
+        
+        writeData.value = [value copy];
+    }else{
+        writeData.value = nil;
+    }
+    
+    
+    return writeData;
+}
+
 - (LocalIntroduce*) readIntroduce:(NSData *) bodyData {
     LocalIntroduce* introduce = [LocalIntroduce new];
     NSData *data = [bodyData subdataWithRange:NSMakeRange(1, bodyData.length-1)];
@@ -300,6 +341,11 @@
     return bytes;
 }
 
+- (NSInteger) getCount:(NSData *) data {
+    Byte *byteData = [self byteOfData:data];
+    return (NSInteger)(byteData[0]);
+}
+
 - (NSInteger) getLength:(NSData *) data {
     Byte *byteData = [self byteOfData:data];
     return (NSInteger)(byteData[0] << 8 | byteData[1]);
@@ -309,8 +355,6 @@
     // remove magic-header, length and checksum
     return [self byteOfData:[data subdataWithRange:NSMakeRange(4, data.length-5)]];
 }
-
-
 
 - (NSData*) getBodyData:(NSData *) data {
     return [data subdataWithRange:NSMakeRange(4, data.length-5)];

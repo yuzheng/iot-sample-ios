@@ -90,10 +90,16 @@
 #pragma mark ControllerClientDelegate
 //連接成功
 - (void) didConnectToController {
-    
+    NSLog(@"Connect to controller : success");
 }
 //連接失敗的代理
 - (void) didDisconnectWithError:(NSError *)error {
+    NSLog(@" >.< Disconnect to controller : %@", error);
+}
+
+//- (void)didReceivedWriteData:(NSString *) rDeviceId sensor:(NSString*) rSensorId value:(NSArray*) value {
+- (void)didReceivedData:(IRawdata *) data {
+    NSLog(@" Received Data: %@ / %@", data.deviceId, data.id);
     
 }
 

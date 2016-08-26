@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LocalSession.h"
 #import "LocalIntroduce.h"
+#import "IRawdata.h"
 
 typedef NS_ENUM(Byte, LocalModeProtocolCommand) {
     COMMAND_ANNOUNCE = 0x00,
@@ -34,6 +35,7 @@ typedef NS_ENUM(Byte, LocalModeProtocolCommand) {
 - (LocalSession*) getSession:(NSData *) bodyData;
 - (NSString*) readSalt:(NSData *) bodyData;
 - (LocalIntroduce*) readIntroduce:(NSData *) bodyData;
+- (IRawdata*) readWriteData:(NSData *) bodyData;
 
 
 - (NSData*) buildConnectPacket;

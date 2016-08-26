@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "LocalSession.h"
+#import "IRawdata.h"
 
 @class ControllerClient;
 
@@ -20,6 +21,8 @@
 - (void)didDisconnectWithError:(NSError *)error;
 //讀取Socket
 //- (void)didReceivedData:(NSData *)data;
+//- (void)didReceivedWriteData:(NSString *) deviceId sensor:(NSString*) sensorId value:(NSArray*) value;
+- (void)didReceivedData:(IRawdata *) data;
 
 @end
 
