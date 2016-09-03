@@ -11,11 +11,16 @@
 #import "ControllerClient.h"
 #import "ControllerClientBuilder.h"
 
-@interface ViewController () <ControllerClientBuilderDelegate, ControllerClientDelegate>
+//MQTT
+#import "OpenMqttClient.h"
+
+@interface ViewController () <ControllerClientBuilderDelegate, ControllerClientDelegate, OpenMqttClientDelegate>
 
 @property (nonatomic, strong, readonly) ControllerClientBuilder *udpConnection;
 @property (nonatomic, strong, readonly) ControllerClient *udpCotroller;
 //@property (nonatomic, strong, readonly) ControllerClient *client;
+
+@property (nonatomic, strong, readonly) OpenMqttClient *mqttClient;
 
 @end
 
@@ -28,11 +33,13 @@
     self.localDevicesTableView.delegate = self;
     
     // set projectKey, device, sensor
-    projectKey = @"PKY9H2EBYMRF9RST2R"; //@"DKRHF4KM29RXM27X3M";
+    projectKey = @"PK1G27KG0PUFFTGBX0"; //@"PKY9H2EBYMRF9RST2R"; //@"DKRHF4KM29RXM27X3M";
     
     // set my device info
-    deviceId = @"693590269"; //@"799538117";
-    sensorIds = @[@"sensor01"]; //@[@"led"];
+    deviceId = @"388622157"; //@"693590269"; //@"799538117";
+    sensorIds = @[@"button"]; //@[@"sensor01"]; //@[@"led"];
+    
+    [self startMQTT];
     
     [self startClient];
 }
@@ -40,6 +47,31 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) startMQTT {
+    
+    _mqttClient = [[OpenMqttClient alloc] init];
+    [_mqttClient setupApiKey:projectKey];
+    
+    _mqttClient.delegate = self;
+    
+    [_mqttClient doConnect];
+    
+    // subscribe
+    //[_mqttClient subscribeDevice:deviceId sensor:sensorIds[0]];
+    [_mqttClient subscribeDevice:deviceId sensor:sensorIds[0] type:@"csv"];
+    
+    [_mqttClient saveDevice:deviceId sensor:sensorIds[0] value:@[@"1"]];
+    
+    
+    // heartbeat
+    [_mqttClient subscribeHeartBeat:deviceId];
+    [_mqttClient saveHeartBeat:deviceId pulse:[NSNumber numberWithInt:1000]];
+    
+    
+    //[_mqttClient registry:@"light12345600002"];
+    
 }
 
 - (void) startClient {
@@ -116,6 +148,32 @@
             [self.sensorSwitch setOn:false];
         }
     });
+}
+
+#pragma mark -
+#pragma mark OpenMqttClientDelegate
+- (void)didConnected {
+    NSLog(@"ViewController: mqtt is connected");
+}
+
+- (void)didConnectClosed {
+    NSLog(@"ViewController: mqtt is connect closed");
+}
+
+- (void)onRawdata:(NSString *)topic data:(IRawdata *)data {
+    NSLog(@"ViewController: onRawdata: %@: %@ %@" ,topic, data.id, [data.value componentsJoinedByString:@","]);
+}
+
+- (void)onHeartBeat:(NSString *)topic data:(IHeartbeat *)data {
+     NSLog(@"ViewController: onHeartBeat: %@: %@",topic, data.type);
+}
+
+- (void) onReconfigure:(NSString *)topic data:(IProvision *)data {
+     NSLog(@"ViewController: onReconfigure: %@: %@ %@ %@",topic, data.op, data.ck, data.deviceId);
+}
+
+- (void)onSetDeviceId:(NSString *)topic data:(IProvision *)data {
+     NSLog(@"ViewController: onSetDeviceId: %@: %@ %@ %@",topic, data.op, data.ck, data.deviceId);
 }
 
 #pragma mark -

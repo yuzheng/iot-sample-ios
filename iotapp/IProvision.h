@@ -12,6 +12,7 @@
 
 //SetDeviceId, Reconfigure
 @property (strong, nonatomic) NSString* op;
+@property (strong, nonatomic) NSString* ck;
 @property (strong, nonatomic) NSString* digest;
 @property (strong, nonatomic) NSString* deviceId;
 
