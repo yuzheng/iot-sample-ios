@@ -30,5 +30,20 @@ $ pod install
 
 ### 程式說明
 
+#### CHT IoT Group
 
+Cloud Mode:
+
+- OpenRESTfulClient: 負責處理IoT平台RESTful協定
+- OpenMqttClient: 負責處理IoT平台MQTT協定
+
+Local Mode:
+
+- ControllerClient: 負責處理與設備間協定溝通
+- ControllerClientBuilder: 負責處理監聽設備Broadcast的announcement資訊
+- LocalModeProtocol: 負責處理Local mode各個協定package內容產生與資訊讀取
+
+Test Code: 測試程式
+
+- ViewController: 撰寫一測試使用 Local mode: ControllerClient與ControllerClinetBuilder, 及 Cloud mode: OpenMqttClient之應用案例
 
