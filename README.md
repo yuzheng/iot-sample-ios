@@ -12,12 +12,23 @@
  $ sudo gem install cocoapods
  $ pod setup
 ```
-下載本專案後執行
+下載本專案，並解壓縮，並於該目錄底下透過終端機視窗，輸入底下指令
 
 ```
 $ pod install
 ```
 
-之後點選
+即可進行本專案第三方套件安裝設定。
+套件包含：
+- 'AFNetworking', '~> 2.6'
+- 'BWJSONMatcher', '~> 1.1.0'
+- 'CocoaAsyncSocket'
+- 'MQTTClient'
+- 'SWRevealViewController', '~> 2.1'
+
+完成後，即可點選專案目錄底下 iotapp.xcworkspace 開啟 XCode 並進行開發
+
+### 程式說明
+
 
 
