@@ -238,7 +238,10 @@
     } else {
         values = @[@"0"];
     }
+    
     [_udpCotroller writeDevice:deviceId sensor:sensorIds[0] value:values];
+    [_mqttClient saveDevice:deviceId sensor:sensorIds[0] value:values];
+
 }
 
 - (IBAction)onRefreshClick:(id)sender {
