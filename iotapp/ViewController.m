@@ -11,6 +11,9 @@
 #import "ControllerClient.h"
 #import "ControllerClientBuilder.h"
 
+//RESTful
+#import "OpenRESTfulClient.h"
+
 //MQTT
 #import "OpenMqttClient.h"
 
@@ -21,6 +24,8 @@
 //@property (nonatomic, strong, readonly) ControllerClient *client;
 
 @property (nonatomic, strong, readonly) OpenMqttClient *mqttClient;
+
+@property (nonatomic, strong, readonly) OpenRESTfulClient *restfulClient;
 
 @end
 
@@ -47,6 +52,28 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) startRESTful {
+    _restfulClient = [[OpenRESTfulClient alloc] init];
+    [_restfulClient setupApiKey:projectKey];
+    
+    
+    //WRITE
+    IRawdata *rawdata = [[IRawdata alloc] init];
+    [rawdata setId:sensorIds[0]];  //
+    [rawdata setValue:@"1"];
+    
+    [_restfulClient saveRawdata:@[rawdata] withDevice:deviceId completion:^(long status, NSError *error) {
+        // check status
+    }];
+    
+    //READ
+    [_restfulClient getRawdataWithSensor:sensorIds[0] withDevice:deviceId completion:^(IRawdata *rawdata, NSError *error) {
+        NSLog(@"getSensor : rawdata time:%@",rawdata.time);
+        NSLog(@"getSensor : rawdata value:%@",[rawdata.value toJSONString]);
+        //// do
+    }];
 }
 
 - (void) startMQTT {

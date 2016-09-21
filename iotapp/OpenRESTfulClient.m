@@ -9,17 +9,38 @@
 //  http://jsonmodel.com/docs/Classes/JSONModel.html
 //  https://github.com/BurrowsWang/BWJSONMatcher
 
+//#define IOT_URL @"https://iot.cht.com.tw/iot"
+//#define API_KEY @"0H4X3ZSPWG0SS9XW"
+
 #import "OpenRESTfulClient.h"
+@interface OpenRESTfulClient()
+{
+    NSString *iot_host;
+    NSString *apiKey;
+}
+@end
 
 @implementation OpenRESTfulClient
 
-//#define IOT_URL @"https://iot.cht.com.tw/iot"
-#define IOT_URL @"http://211.20.181.196/iot"
-#define API_KEY @"0H4X3ZSPWG0SS9XW"
 
 - (OpenRESTfulClient *)init
 {
+    self = [super init];
+    
+    if(self){
+        iot_host = @"https://iot.cht.com.tw/iot";
+        apiKey = @"";
+    }
+    
     return self;
+}
+
+- (void)setupHost:(NSString*) host {
+    iot_host = host;
+}
+
+- (void)setupApiKey:(NSString*) key {
+    apiKey = key;
 }
 
 #pragma mark - device
@@ -313,7 +334,7 @@
     NSData *body = [self generateSnapshotData:image withMeta:meta withBoundary:boundary];
     
     // Data uploading task. We could use NSURLSessionUploadTask instead of NSURLSessionDataTask if we needed to support uploads in the background
-    NSURL *url = [NSURL URLWithString:[IOT_URL stringByAppendingString:[NSString stringWithFormat:@"/v1/device/%@/snapshot",deviceId]]];
+    NSURL *url = [NSURL URLWithString:[iot_host stringByAppendingString:[NSString stringWithFormat:@"/v1/device/%@/snapshot",deviceId]]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.HTTPBody = body;
@@ -545,7 +566,7 @@
     // Setup the session
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.HTTPAdditionalHeaders = @{
-                                                   @"CK" : API_KEY,
+                                                   @"CK" : apiKey,
                                                    @"Content-Type"  : [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary]
                                                    };
     
@@ -606,7 +627,7 @@
 - (NSMutableURLRequest*)iotRestfulRequest:(NSString*) uri method:(NSString*) method data:(NSData*) jsonData
 {
     NSMutableURLRequest *request  = [[NSMutableURLRequest alloc] init];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",IOT_URL,uri];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",iot_host,uri];
     urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     //NSLog(@"urlString:%@",urlString);
     [request setURL:[NSURL URLWithString:urlString]];
@@ -617,7 +638,7 @@
         [request setHTTPBody:jsonData];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     }
-    [request setValue:API_KEY forHTTPHeaderField:@"CK"];
+    [request setValue:apiKey forHTTPHeaderField:@"CK"];
     
     return request;
 }
@@ -625,7 +646,7 @@
 - (NSMutableURLRequest*)iotRestfulRequest:(NSString*) uri method:(NSString*) method data:(NSData*) jsonData acceptEncoding:(NSString*) encoding
 {
     NSMutableURLRequest *request  = [[NSMutableURLRequest alloc] init];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",IOT_URL,uri];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",iot_host,uri];
     urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     //NSLog(@"urlString:%@",urlString);
     [request setURL:[NSURL URLWithString:urlString]];
@@ -637,7 +658,7 @@
         [request setHTTPBody:jsonData];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     }
-    [request setValue:API_KEY forHTTPHeaderField:@"CK"];
+    [request setValue:apiKey forHTTPHeaderField:@"CK"];
     
     return request;
 }

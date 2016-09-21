@@ -17,6 +17,8 @@
 #import "IProvision.h"
 
 @interface OpenRESTfulClient : NSObject 
+- (void)setupHost:(NSString*) host;
+- (void)setupApiKey:(NSString*) key;
 
 // device
 - (void)getDevices:(void(^)(NSArray<IDevice *> *devices, NSError *error))completion;
