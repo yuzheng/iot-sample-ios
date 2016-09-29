@@ -20,6 +20,8 @@
     NSString *apiKey;
     
     BOOL connected;
+    
+    BOOL isTLS;
 }
 @property (nonatomic, strong, readonly) MQTTSession *session;
 @end
@@ -32,7 +34,8 @@
     
     if(self){
         mqtt_host = @"iot.cht.com.tw";
-        mqtt_port = 1883;
+        mqtt_port = 1883;  //8883
+        isTLS = FALSE;
         apiKey = @"";
         
         connected = FALSE;
@@ -50,13 +53,22 @@
     apiKey = key;
 }
 
+- (void)usingTLS:(BOOL) tls {
+    isTLS = tls;
+    if(isTLS){
+        mqtt_port = 8883;
+    }
+}
+
 - (void) doConnect {
     MQTTCFSocketTransport *transport = [[MQTTCFSocketTransport alloc] init];
     transport.host = mqtt_host;
     transport.port = mqtt_port;
+    transport.tls = isTLS;
     
     _session = [[MQTTSession alloc] init];
     _session.transport = transport;
+    
     if( apiKey.length > 0) {
         _session.userName = apiKey;
         _session.password = apiKey;
@@ -64,6 +76,7 @@
     _session.delegate = self;
     
     [_session connectAndWaitTimeout:0];  //this is part of the synchronous API
+    //[_session connectToHost:mqtt_host port:mqtt_port usingSSL:true];
 }
 
 - (void) stop {

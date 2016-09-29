@@ -33,6 +33,7 @@
 @property (nonatomic, weak) id<OpenMqttClientDelegate> delegate;
 - (void)setupHost:(NSString*) host withPort:(uint16_t)port;
 - (void)setupApiKey:(NSString*) key;
+- (void)usingTLS:(BOOL) tls;
 
 - (void) doConnect;
 - (void) subscribeDevice:(NSString*) deviceId sensor:(NSString*) sensorId;

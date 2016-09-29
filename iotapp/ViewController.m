@@ -71,7 +71,7 @@
     //READ
     [_restfulClient getRawdataWithSensor:sensorIds[0] withDevice:deviceId completion:^(IRawdata *rawdata, NSError *error) {
         NSLog(@"getSensor : rawdata time:%@",rawdata.time);
-        NSLog(@"getSensor : rawdata value:%@",[rawdata.value toJSONString]);
+        //NSLog(@"getSensor : rawdata value:%@",[rawdata.value toJSONString]);
         //// do
     }];
 }
@@ -79,6 +79,8 @@
 - (void) startMQTT {
     
     _mqttClient = [[OpenMqttClient alloc] init];
+    //[_mqttClient setupHost:@"iot.cht.com.tw" withPort:8883];
+    [_mqttClient usingTLS:TRUE];
     [_mqttClient setupApiKey:projectKey];
     
     _mqttClient.delegate = self;
