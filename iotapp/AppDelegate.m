@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+
+#import "SWRevealViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -122,6 +126,16 @@
             abort();
         }
     }
+}
+
+- (void) backHome {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
+    SWRevealViewController *revealViewController = (SWRevealViewController*) self.window.rootViewController;
+    UINavigationController* navController = (UINavigationController*)revealViewController.frontViewController;
+    [navController setViewControllers: @[viewController] animated: YES];
+    [revealViewController setFrontViewController:navController];
+    [revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
 }
 
 @end

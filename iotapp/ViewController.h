@@ -7,29 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LocalSession.h"
-#import "GCDAsyncUdpSocket.h"
 
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+#import "QRCodeReaderDelegate.h"
+
+@interface ViewController : UIViewController<QRCodeReaderDelegate>
 {
-    NSMutableArray<LocalSession*> *sessions;
-    
-    NSString *projectKey;
-    NSString *deviceId;
-    NSArray *sensorIds;
-    
-    NSInteger selectedTag;
-    
+    NSString *apiKey;
 }
-@property (weak, nonatomic) IBOutlet UITableView *localDevicesTableView;
-
-@property (weak, nonatomic) IBOutlet UIView *deviceView;
-@property (weak, nonatomic) IBOutlet UISwitch *sensorSwitch;
-- (IBAction)onSwitchChanged:(id)sender;
-- (IBAction)onRefreshClick:(id)sender;
-
-
-@property (weak, nonatomic) IBOutlet UIButton *btnGo;
-- (IBAction)onGo:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *initialView;
+- (IBAction)touchHelpOfKey:(id)sender;
+- (IBAction)touchScanCode:(id)sender;
+- (IBAction)touchMyDevices:(id)sender;
+- (IBAction)touchRegistryDevice:(id)sender;
 
 @end

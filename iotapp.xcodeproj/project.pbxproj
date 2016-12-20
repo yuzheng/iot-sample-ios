@@ -7,11 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		027FD319F1B630E5611D1CA4 /* Pods_iotapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */; };
+		970FB82B1E01191000A90CBF /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970FB82A1E01191000A90CBF /* MenuViewController.m */; };
+		970FB82E1E011AF500A90CBF /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 970FB82C1E011AF500A90CBF /* reveal-icon.png */; };
+		970FB82F1E011AF500A90CBF /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 970FB82D1E011AF500A90CBF /* reveal-icon@2x.png */; };
+		970FB8381E01229D00A90CBF /* ColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970FB8371E01229D00A90CBF /* ColorViewController.m */; };
+		971434951E04E9290074309F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 971434941E04E9280074309F /* AVFoundation.framework */; };
+		97151C771E07C23D0073CC22 /* iot.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97151C761E07C23D0073CC22 /* iot.plist */; };
+		9715DFD51E03CA3D00C35229 /* DevicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9715DFD41E03CA3D00C35229 /* DevicesViewController.m */; };
 		972110231D6AC09D009B8941 /* ControllerClientBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110221D6AC09D009B8941 /* ControllerClientBuilder.m */; };
 		972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110251D6AC36A009B8941 /* LocalModeProtocol.m */; };
 		972110291D6AD174009B8941 /* LocalSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110281D6AD174009B8941 /* LocalSession.m */; };
 		9721102D1D6B568A009B8941 /* ControllerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9721102C1D6B568A009B8941 /* ControllerClient.m */; };
+		979FDE781E09130A00FC2CD7 /* MyDevicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */; };
+		979FDE7B1E0919E300FC2CD7 /* RegistryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */; };
 		97A5F2291D669C9800AB64DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2281D669C9800AB64DC /* main.m */; };
 		97A5F22C1D669C9800AB64DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F22B1D669C9800AB64DC /* AppDelegate.m */; };
 		97A5F22F1D669C9900AB64DC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F22E1D669C9900AB64DC /* ViewController.m */; };
@@ -35,11 +43,23 @@
 		97F526841D7915FB000A0CAB /* OpenMqttClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F526831D7915FB000A0CAB /* OpenMqttClient.m */; };
 		97F526871D7952D1000A0CAB /* IHeartbeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F526861D7952D1000A0CAB /* IHeartbeat.m */; };
 		97FD57EB1D6E7782009DC65B /* DeviceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD57EA1D6E7782009DC65B /* DeviceTableViewCell.m */; };
+		A687E1266DE27DEDD59350CE /* Pods_iotapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D2F0A5CB7EB7D440A320BC /* Pods_iotapp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.release.xcconfig"; sourceTree = "<group>"; };
-		7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iotapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		341218373BE64DD37EF922E6 /* Pods-iotapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.release.xcconfig"; sourceTree = "<group>"; };
+		4E384671FF8253C066C808CB /* Pods-iotapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.debug.xcconfig"; sourceTree = "<group>"; };
+		84D2F0A5CB7EB7D440A320BC /* Pods_iotapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iotapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		970FB8291E01191000A90CBF /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		970FB82A1E01191000A90CBF /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		970FB82C1E011AF500A90CBF /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
+		970FB82D1E011AF500A90CBF /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
+		970FB8361E01229D00A90CBF /* ColorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorViewController.h; sourceTree = "<group>"; };
+		970FB8371E01229D00A90CBF /* ColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorViewController.m; sourceTree = "<group>"; };
+		971434941E04E9280074309F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		97151C761E07C23D0073CC22 /* iot.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = iot.plist; sourceTree = "<group>"; };
+		9715DFD31E03CA3D00C35229 /* DevicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevicesViewController.h; sourceTree = "<group>"; };
+		9715DFD41E03CA3D00C35229 /* DevicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DevicesViewController.m; sourceTree = "<group>"; };
 		972110211D6AC09D009B8941 /* ControllerClientBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerClientBuilder.h; sourceTree = "<group>"; };
 		972110221D6AC09D009B8941 /* ControllerClientBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControllerClientBuilder.m; sourceTree = "<group>"; };
 		972110241D6AC36A009B8941 /* LocalModeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalModeProtocol.h; sourceTree = "<group>"; };
@@ -48,6 +68,10 @@
 		972110281D6AD174009B8941 /* LocalSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalSession.m; sourceTree = "<group>"; };
 		9721102B1D6B568A009B8941 /* ControllerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerClient.h; sourceTree = "<group>"; };
 		9721102C1D6B568A009B8941 /* ControllerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControllerClient.m; sourceTree = "<group>"; };
+		979FDE761E09130A00FC2CD7 /* MyDevicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDevicesViewController.h; sourceTree = "<group>"; };
+		979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDevicesViewController.m; sourceTree = "<group>"; };
+		979FDE791E0919E300FC2CD7 /* RegistryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistryViewController.h; sourceTree = "<group>"; };
+		979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistryViewController.m; sourceTree = "<group>"; };
 		97A5F2241D669C9800AB64DC /* iotapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iotapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A5F2281D669C9800AB64DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		97A5F22A1D669C9800AB64DC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -88,7 +112,6 @@
 		97F526861D7952D1000A0CAB /* IHeartbeat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IHeartbeat.m; sourceTree = "<group>"; };
 		97FD57E91D6E7782009DC65B /* DeviceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceTableViewCell.h; sourceTree = "<group>"; };
 		97FD57EA1D6E7782009DC65B /* DeviceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTableViewCell.m; sourceTree = "<group>"; };
-		E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iotapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iotapp/Pods-iotapp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +119,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				027FD319F1B630E5611D1CA4 /* Pods_iotapp.framework in Frameworks */,
+				971434951E04E9290074309F /* AVFoundation.framework in Frameworks */,
+				A687E1266DE27DEDD59350CE /* Pods_iotapp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,8 +143,8 @@
 			children = (
 				97A5F2261D669C9800AB64DC /* iotapp */,
 				97A5F2251D669C9800AB64DC /* Products */,
-				CCEA072850815D3D012CE0AD /* Pods */,
 				A78A9916E6965F138EC3C614 /* Frameworks */,
+				B499F26F9F7188D0915E52FD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,15 +163,26 @@
 				97A5F2441D66CD6900AB64DC /* CHTIoT */,
 				97A5F22A1D669C9800AB64DC /* AppDelegate.h */,
 				97A5F22B1D669C9800AB64DC /* AppDelegate.m */,
+				970FB8291E01191000A90CBF /* MenuViewController.h */,
+				970FB82A1E01191000A90CBF /* MenuViewController.m */,
 				97A5F22D1D669C9800AB64DC /* ViewController.h */,
 				97A5F22E1D669C9900AB64DC /* ViewController.m */,
+				979FDE761E09130A00FC2CD7 /* MyDevicesViewController.h */,
+				979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */,
+				979FDE791E0919E300FC2CD7 /* RegistryViewController.h */,
+				979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */,
+				9715DFD31E03CA3D00C35229 /* DevicesViewController.h */,
+				9715DFD41E03CA3D00C35229 /* DevicesViewController.m */,
 				97FD57E91D6E7782009DC65B /* DeviceTableViewCell.h */,
 				97FD57EA1D6E7782009DC65B /* DeviceTableViewCell.m */,
 				97A5F2651D66F01300AB64DC /* ConfigureProjectViewController.h */,
 				97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */,
+				970FB8361E01229D00A90CBF /* ColorViewController.h */,
+				970FB8371E01229D00A90CBF /* ColorViewController.m */,
 				97A5F2301D669C9900AB64DC /* Main.storyboard */,
 				97A5F2361D669C9900AB64DC /* Assets.xcassets */,
 				97A5F2381D669C9900AB64DC /* LaunchScreen.storyboard */,
+				97151C761E07C23D0073CC22 /* iot.plist */,
 				97A5F23B1D669C9900AB64DC /* Info.plist */,
 				97A5F2331D669C9900AB64DC /* iotapp.xcdatamodeld */,
 				97A5F2271D669C9800AB64DC /* Supporting Files */,
@@ -211,6 +246,8 @@
 				97A5F25F1D66CDCB00AB64DC /* device.png */,
 				97A5F2601D66CDCB00AB64DC /* loading.png */,
 				97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */,
+				970FB82C1E011AF500A90CBF /* reveal-icon.png */,
+				970FB82D1E011AF500A90CBF /* reveal-icon@2x.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -218,16 +255,17 @@
 		A78A9916E6965F138EC3C614 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7650C7F786AAD5FBCFBA8432 /* Pods_iotapp.framework */,
+				971434941E04E9280074309F /* AVFoundation.framework */,
+				84D2F0A5CB7EB7D440A320BC /* Pods_iotapp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CCEA072850815D3D012CE0AD /* Pods */ = {
+		B499F26F9F7188D0915E52FD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */,
-				2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */,
+				4E384671FF8253C066C808CB /* Pods-iotapp.debug.xcconfig */,
+				341218373BE64DD37EF922E6 /* Pods-iotapp.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -239,12 +277,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97A5F23E1D669C9900AB64DC /* Build configuration list for PBXNativeTarget "iotapp" */;
 			buildPhases = (
-				45A260F05017305EAC9CE353 /* [CP] Check Pods Manifest.lock */,
+				060220D12028030E7FE9FD21 /* [CP] Check Pods Manifest.lock */,
 				97A5F2201D669C9800AB64DC /* Sources */,
 				97A5F2211D669C9800AB64DC /* Frameworks */,
 				97A5F2221D669C9800AB64DC /* Resources */,
-				48B77F59788217A7C0690FC8 /* [CP] Embed Pods Frameworks */,
-				BDC687A9F1668D0C7FD515DF /* [CP] Copy Pods Resources */,
+				60F83BF2FA8957FA081C3B1B /* [CP] Embed Pods Frameworks */,
+				8C77D9B5D38832D267E4C55D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -261,7 +299,7 @@
 		97A5F21C1D669C9800AB64DC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = chttl;
 				TargetAttributes = {
 					97A5F2231D669C9800AB64DC = {
@@ -297,15 +335,18 @@
 				97A5F2631D66CDCB00AB64DC /* loading.png in Resources */,
 				97A5F23A1D669C9900AB64DC /* LaunchScreen.storyboard in Resources */,
 				97A5F2621D66CDCB00AB64DC /* device.png in Resources */,
+				970FB82F1E011AF500A90CBF /* reveal-icon@2x.png in Resources */,
 				97A5F2371D669C9900AB64DC /* Assets.xcassets in Resources */,
+				970FB82E1E011AF500A90CBF /* reveal-icon.png in Resources */,
 				97A5F2321D669C9900AB64DC /* Main.storyboard in Resources */,
+				97151C771E07C23D0073CC22 /* iot.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		45A260F05017305EAC9CE353 /* [CP] Check Pods Manifest.lock */ = {
+		060220D12028030E7FE9FD21 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -317,10 +358,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		48B77F59788217A7C0690FC8 /* [CP] Embed Pods Frameworks */ = {
+		60F83BF2FA8957FA081C3B1B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -335,7 +376,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iotapp/Pods-iotapp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BDC687A9F1668D0C7FD515DF /* [CP] Copy Pods Resources */ = {
+		8C77D9B5D38832D267E4C55D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -366,16 +407,21 @@
 				97A5F22C1D669C9800AB64DC /* AppDelegate.m in Sources */,
 				97A5F2581D66CDB400AB64DC /* IDevice.m in Sources */,
 				97C2E9D31D6C0E22007143AF /* LocalIntroduce.m in Sources */,
+				970FB82B1E01191000A90CBF /* MenuViewController.m in Sources */,
 				97A5F2291D669C9800AB64DC /* main.m in Sources */,
 				972110291D6AD174009B8941 /* LocalSession.m in Sources */,
 				97A5F2671D66F01300AB64DC /* ConfigureProjectViewController.m in Sources */,
+				970FB8381E01229D00A90CBF /* ColorViewController.m in Sources */,
 				97A5F2591D66CDB400AB64DC /* ISensor.m in Sources */,
 				97A5F25C1D66CDB400AB64DC /* IProvision.m in Sources */,
 				97A5F25A1D66CDB400AB64DC /* IAttribute.m in Sources */,
+				979FDE7B1E0919E300FC2CD7 /* RegistryViewController.m in Sources */,
 				972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */,
 				972110231D6AC09D009B8941 /* ControllerClientBuilder.m in Sources */,
 				9721102D1D6B568A009B8941 /* ControllerClient.m in Sources */,
+				9715DFD51E03CA3D00C35229 /* DevicesViewController.m in Sources */,
 				97FD57EB1D6E7782009DC65B /* DeviceTableViewCell.m in Sources */,
+				979FDE781E09130A00FC2CD7 /* MyDevicesViewController.m in Sources */,
 				97F526841D7915FB000A0CAB /* OpenMqttClient.m in Sources */,
 				97A5F25D1D66CDB400AB64DC /* IMessage.m in Sources */,
 			);
@@ -417,8 +463,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -461,8 +509,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -487,7 +537,7 @@
 		};
 		97A5F23F1D669C9900AB64DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E51699B9BE22301862B9037C /* Pods-iotapp.debug.xcconfig */;
+			baseConfigurationReference = 4E384671FF8253C066C808CB /* Pods-iotapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -500,7 +550,7 @@
 		};
 		97A5F2401D669C9900AB64DC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E336FA114B1E4D1CD77A9DD /* Pods-iotapp.release.xcconfig */;
+			baseConfigurationReference = 341218373BE64DD37EF922E6 /* Pods-iotapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

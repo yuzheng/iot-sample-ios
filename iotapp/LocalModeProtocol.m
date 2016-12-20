@@ -110,13 +110,15 @@
     
     // read count
     NSData *countData = [data subdataWithRange:NSMakeRange(epSensor+1, 1)];
-    int count = [self getCount:countData];
+    //int count = [self getCount:countData];
+    NSInteger count = [self getCount:countData];
     //[self showByteData:countData];
-    NSLog(@"read count:%d",count);
+    NSLog(@"read count:%ld",(long)count);
     
     if(count > 0){
         
-        int lengthOfPreviousData = epSensor + 1; // add count byte
+        //int lengthOfPreviousData = epSensor + 1; // add count byte
+        NSInteger lengthOfPreviousData = epSensor + 1; // add count byte
         NSMutableArray *value = [[NSMutableArray alloc] init];
         for(int i=0; i<count; i++){
             data = [data subdataWithRange:NSMakeRange(lengthOfPreviousData+1, data.length-lengthOfPreviousData-1)];
@@ -250,7 +252,8 @@
     NSString *sign = [NSString stringWithFormat:@"%@%@", salt, key];
     const char *cStr = [sign UTF8String];
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(cStr, strlen(cStr), digest);
+    //CC_MD5(cStr, strlen(cStr), digest);
+    CC_MD5(cStr, (CC_LONG)strlen(cStr), digest);
     
     NSData *hashData = [[NSData alloc] initWithBytes:digest length: sizeof digest];
     [self showByteData:hashData];
