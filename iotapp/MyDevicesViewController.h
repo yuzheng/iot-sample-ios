@@ -8,12 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+#import "OpenRESTfulClient.h"
+
 #import "AppDelegate.h"
 
-@interface MyDevicesViewController : UIViewController
+@interface MyDevicesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     AppDelegate *appDeleage;
     
     NSString *apiKey;
+    
+    OpenRESTfulClient* client;
+    NSMutableArray *devicesData;
+    NSInteger selectedTag;
 }
+
+@property (weak, nonatomic) IBOutlet UITableView *devicesTableView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
+
 @end

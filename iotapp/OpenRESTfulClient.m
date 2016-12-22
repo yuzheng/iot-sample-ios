@@ -406,6 +406,7 @@
     NSURLRequest *request = [self iotRestfulRequest:uri method:@"GET" data:jsonData acceptEncoding:@""];
     
     [self taskDownloadDataRequest:request delegate:delegate];
+
 }
 
 - (void)getSnapshotBody:(NSString*)snapshotId withSensor:(NSString*) sensorId withDevice:(NSString*) deviceId completion:(void(^)(UIImage *image, NSError *error))completion
@@ -558,9 +559,17 @@
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:delegate delegateQueue:nil];
     //NSURLSessionDataTask* task = [session dataTaskWithRequest:request];
     NSURLSessionDownloadTask* task = [session downloadTaskWithRequest:request];
+    
     [task resume];
 }
 
+/*
+- (void)taskDownloadDataRequest:(NSURLRequest*)request completionHandler:(void (^)(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler
+{
+    NSURLSession *session = [NSURLSession sharedSession];
+    [session downloadTaskWithRequest:request completionHandler:completionHandler];
+}
+*/
 - (void)taskUploadDataRequest:(NSURLRequest*)request withBoundary:(NSString*) boundary delegate:(nullable id<NSURLSessionDelegate>) delegate
 {
     // Setup the session

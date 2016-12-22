@@ -18,6 +18,10 @@
 		972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110251D6AC36A009B8941 /* LocalModeProtocol.m */; };
 		972110291D6AD174009B8941 /* LocalSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 972110281D6AD174009B8941 /* LocalSession.m */; };
 		9721102D1D6B568A009B8941 /* ControllerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9721102C1D6B568A009B8941 /* ControllerClient.m */; };
+		9732DCFC1E0B9DFC00646E01 /* icon_device@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9732DCFA1E0B9DFC00646E01 /* icon_device@2x.png */; };
+		9732DCFD1E0B9DFC00646E01 /* icon_registry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9732DCFB1E0B9DFC00646E01 /* icon_registry@2x.png */; };
+		9732DCFF1E0BA11900646E01 /* icon_home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9732DCFE1E0BA11900646E01 /* icon_home@2x.png */; };
+		9732DD011E0BA52700646E01 /* icon_x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9732DD001E0BA52700646E01 /* icon_x@2x.png */; };
 		979FDE781E09130A00FC2CD7 /* MyDevicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */; };
 		979FDE7B1E0919E300FC2CD7 /* RegistryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */; };
 		97A5F2291D669C9800AB64DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2281D669C9800AB64DC /* main.m */; };
@@ -39,6 +43,10 @@
 		97A5F2631D66CDCB00AB64DC /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2601D66CDCB00AB64DC /* loading.png */; };
 		97A5F2641D66CDCB00AB64DC /* iot-launch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */; };
 		97A5F2671D66F01300AB64DC /* ConfigureProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */; };
+		97A89A481E096A1F00004FB7 /* DeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A451E096A1F00004FB7 /* DeviceViewController.m */; };
+		97A89A491E096A1F00004FB7 /* SensorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A471E096A1F00004FB7 /* SensorTableViewCell.m */; };
+		97A89A4C1E096BD500004FB7 /* SnapshotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */; };
+		97A89A501E096D3300004FB7 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A4F1E096D3300004FB7 /* GlobalData.m */; };
 		97C2E9D31D6C0E22007143AF /* LocalIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C2E9D21D6C0E22007143AF /* LocalIntroduce.m */; };
 		97F526841D7915FB000A0CAB /* OpenMqttClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F526831D7915FB000A0CAB /* OpenMqttClient.m */; };
 		97F526871D7952D1000A0CAB /* IHeartbeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F526861D7952D1000A0CAB /* IHeartbeat.m */; };
@@ -68,6 +76,10 @@
 		972110281D6AD174009B8941 /* LocalSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalSession.m; sourceTree = "<group>"; };
 		9721102B1D6B568A009B8941 /* ControllerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerClient.h; sourceTree = "<group>"; };
 		9721102C1D6B568A009B8941 /* ControllerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControllerClient.m; sourceTree = "<group>"; };
+		9732DCFA1E0B9DFC00646E01 /* icon_device@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_device@2x.png"; sourceTree = "<group>"; };
+		9732DCFB1E0B9DFC00646E01 /* icon_registry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_registry@2x.png"; sourceTree = "<group>"; };
+		9732DCFE1E0BA11900646E01 /* icon_home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_home@2x.png"; sourceTree = "<group>"; };
+		9732DD001E0BA52700646E01 /* icon_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_x@2x.png"; sourceTree = "<group>"; };
 		979FDE761E09130A00FC2CD7 /* MyDevicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDevicesViewController.h; sourceTree = "<group>"; };
 		979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDevicesViewController.m; sourceTree = "<group>"; };
 		979FDE791E0919E300FC2CD7 /* RegistryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistryViewController.h; sourceTree = "<group>"; };
@@ -104,6 +116,14 @@
 		97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "iot-launch.jpg"; sourceTree = "<group>"; };
 		97A5F2651D66F01300AB64DC /* ConfigureProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigureProjectViewController.h; sourceTree = "<group>"; };
 		97A5F2661D66F01300AB64DC /* ConfigureProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigureProjectViewController.m; sourceTree = "<group>"; };
+		97A89A441E096A1F00004FB7 /* DeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceViewController.h; sourceTree = "<group>"; };
+		97A89A451E096A1F00004FB7 /* DeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceViewController.m; sourceTree = "<group>"; };
+		97A89A461E096A1F00004FB7 /* SensorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorTableViewCell.h; sourceTree = "<group>"; };
+		97A89A471E096A1F00004FB7 /* SensorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorTableViewCell.m; sourceTree = "<group>"; };
+		97A89A4A1E096BD500004FB7 /* SnapshotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapshotViewController.h; sourceTree = "<group>"; };
+		97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapshotViewController.m; sourceTree = "<group>"; };
+		97A89A4E1E096D3300004FB7 /* GlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalData.h; sourceTree = "<group>"; };
+		97A89A4F1E096D3300004FB7 /* GlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalData.m; sourceTree = "<group>"; };
 		97C2E9D11D6C0E22007143AF /* LocalIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalIntroduce.h; sourceTree = "<group>"; };
 		97C2E9D21D6C0E22007143AF /* LocalIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalIntroduce.m; sourceTree = "<group>"; };
 		97F526821D7915FB000A0CAB /* OpenMqttClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenMqttClient.h; sourceTree = "<group>"; };
@@ -163,12 +183,20 @@
 				97A5F2441D66CD6900AB64DC /* CHTIoT */,
 				97A5F22A1D669C9800AB64DC /* AppDelegate.h */,
 				97A5F22B1D669C9800AB64DC /* AppDelegate.m */,
+				97A89A4E1E096D3300004FB7 /* GlobalData.h */,
+				97A89A4F1E096D3300004FB7 /* GlobalData.m */,
 				970FB8291E01191000A90CBF /* MenuViewController.h */,
 				970FB82A1E01191000A90CBF /* MenuViewController.m */,
 				97A5F22D1D669C9800AB64DC /* ViewController.h */,
 				97A5F22E1D669C9900AB64DC /* ViewController.m */,
 				979FDE761E09130A00FC2CD7 /* MyDevicesViewController.h */,
 				979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */,
+				97A89A441E096A1F00004FB7 /* DeviceViewController.h */,
+				97A89A451E096A1F00004FB7 /* DeviceViewController.m */,
+				97A89A461E096A1F00004FB7 /* SensorTableViewCell.h */,
+				97A89A471E096A1F00004FB7 /* SensorTableViewCell.m */,
+				97A89A4A1E096BD500004FB7 /* SnapshotViewController.h */,
+				97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */,
 				979FDE791E0919E300FC2CD7 /* RegistryViewController.h */,
 				979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */,
 				9715DFD31E03CA3D00C35229 /* DevicesViewController.h */,
@@ -243,6 +271,10 @@
 		97A5F25E1D66CDBD00AB64DC /* images */ = {
 			isa = PBXGroup;
 			children = (
+				9732DCFA1E0B9DFC00646E01 /* icon_device@2x.png */,
+				9732DCFB1E0B9DFC00646E01 /* icon_registry@2x.png */,
+				9732DCFE1E0BA11900646E01 /* icon_home@2x.png */,
+				9732DD001E0BA52700646E01 /* icon_x@2x.png */,
 				97A5F25F1D66CDCB00AB64DC /* device.png */,
 				97A5F2601D66CDCB00AB64DC /* loading.png */,
 				97A5F2611D66CDCB00AB64DC /* iot-launch.jpg */,
@@ -333,13 +365,17 @@
 			files = (
 				97A5F2641D66CDCB00AB64DC /* iot-launch.jpg in Resources */,
 				97A5F2631D66CDCB00AB64DC /* loading.png in Resources */,
+				9732DCFF1E0BA11900646E01 /* icon_home@2x.png in Resources */,
 				97A5F23A1D669C9900AB64DC /* LaunchScreen.storyboard in Resources */,
+				9732DCFD1E0B9DFC00646E01 /* icon_registry@2x.png in Resources */,
 				97A5F2621D66CDCB00AB64DC /* device.png in Resources */,
 				970FB82F1E011AF500A90CBF /* reveal-icon@2x.png in Resources */,
 				97A5F2371D669C9900AB64DC /* Assets.xcassets in Resources */,
+				9732DCFC1E0B9DFC00646E01 /* icon_device@2x.png in Resources */,
 				970FB82E1E011AF500A90CBF /* reveal-icon.png in Resources */,
 				97A5F2321D669C9900AB64DC /* Main.storyboard in Resources */,
 				97151C771E07C23D0073CC22 /* iot.plist in Resources */,
+				9732DD011E0BA52700646E01 /* icon_x@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A5F2571D66CDB400AB64DC /* IId.m in Sources */,
+				97A89A491E096A1F00004FB7 /* SensorTableViewCell.m in Sources */,
 				97A5F2351D669C9900AB64DC /* iotapp.xcdatamodeld in Sources */,
 				97F526871D7952D1000A0CAB /* IHeartbeat.m in Sources */,
 				97A5F25B1D66CDB400AB64DC /* IRawdata.m in Sources */,
@@ -411,12 +448,15 @@
 				97A5F2291D669C9800AB64DC /* main.m in Sources */,
 				972110291D6AD174009B8941 /* LocalSession.m in Sources */,
 				97A5F2671D66F01300AB64DC /* ConfigureProjectViewController.m in Sources */,
+				97A89A4C1E096BD500004FB7 /* SnapshotViewController.m in Sources */,
 				970FB8381E01229D00A90CBF /* ColorViewController.m in Sources */,
 				97A5F2591D66CDB400AB64DC /* ISensor.m in Sources */,
 				97A5F25C1D66CDB400AB64DC /* IProvision.m in Sources */,
+				97A89A501E096D3300004FB7 /* GlobalData.m in Sources */,
 				97A5F25A1D66CDB400AB64DC /* IAttribute.m in Sources */,
 				979FDE7B1E0919E300FC2CD7 /* RegistryViewController.m in Sources */,
 				972110261D6AC36A009B8941 /* LocalModeProtocol.m in Sources */,
+				97A89A481E096A1F00004FB7 /* DeviceViewController.m in Sources */,
 				972110231D6AC09D009B8941 /* ControllerClientBuilder.m in Sources */,
 				9721102D1D6B568A009B8941 /* ControllerClient.m in Sources */,
 				9715DFD51E03CA3D00C35229 /* DevicesViewController.m in Sources */,
