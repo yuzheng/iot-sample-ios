@@ -21,5 +21,6 @@
 - (NSURL *)applicationDocumentsDirectory;
 
 - (void) backHome;
+- (void) showDevices;
 @end
 

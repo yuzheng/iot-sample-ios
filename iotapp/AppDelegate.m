@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MyDevicesViewController.h"
 
 #import "SWRevealViewController.h"
 
@@ -134,6 +135,17 @@
     SWRevealViewController *revealViewController = (SWRevealViewController*) self.window.rootViewController;
     UINavigationController* navController = (UINavigationController*)revealViewController.frontViewController;
     [navController setViewControllers: @[viewController] animated: YES];
+    [revealViewController setFrontViewController:navController];
+    [revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
+}
+
+- (void) showDevices {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //ViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
+    MyDevicesViewController* devicesViewController = [storyboard instantiateViewControllerWithIdentifier:@"devicesViewController"];
+    SWRevealViewController *revealViewController = (SWRevealViewController*) self.window.rootViewController;
+    UINavigationController* navController = (UINavigationController*)revealViewController.frontViewController;
+    [navController setViewControllers: @[devicesViewController] animated: YES];
     [revealViewController setFrontViewController:navController];
     [revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
 }

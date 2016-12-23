@@ -15,5 +15,6 @@
 @property (strong, nonatomic) NSString* ck;
 @property (strong, nonatomic) NSString* digest;
 @property (strong, nonatomic) NSString* deviceId;
+@property (strong, nonatomic) NSString* authority;
 
 @end

@@ -55,6 +55,7 @@
 
 // registry
 -(void) reconfigure:(NSString*) serialId withDigest:(NSString*) digest completion:(void(^)(long status, NSError *error))completion;
+-(void) reconfigureData:(NSString*) serialId withDigest:(NSString*) digest completion:(void(^)(long status, NSData* data, NSError *error))completion;
 -(void) setDeviceId:(NSString*) deviceId withSerialId:(NSString*) serialId withDigest:(NSString*) digest completion:(void(^)(long status, NSError *error))completion;
 
 // heartbeat

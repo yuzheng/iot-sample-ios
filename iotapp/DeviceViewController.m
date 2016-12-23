@@ -175,7 +175,7 @@
     }else if([sensor.type isEqualToString:@"snapshot"]){
         cellIdentifier = @"snapshotCell";
     }
-    NSLog(@"cellIdentifier:%@",cellIdentifier);
+    //NSLog(@"cellIdentifier:%@",cellIdentifier);
     SensorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     [cell initCell:(NSDictionary*)sensorsData[index]];
@@ -185,12 +185,10 @@
     if([sensor.type isEqualToString:@"snapshot"]){
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
         dispatch_async(queue, ^(void) {
-            NSLog(@"load snapshot");
+            //NSLog(@"load snapshot");
             [cell.activityIndicatorView setHidden:FALSE];
             [cell.activityIndicatorView startAnimating];
             [client getSnapshotBodyWithSensor:sensor.id withDevice:self.device.id completion:^(UIImage *image, NSError *error) {
-                
-                NSLog(@"finish");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     SensorTableViewCell* cell = (SensorTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
                     cell.sensorSnapshot.image = image;

@@ -467,12 +467,29 @@
     IProvision *provision = [IProvision new];
     provision.op = @"Reconfigure";
     provision.digest = digest;
-    
+    jsonData = [provision toJSONData];
     NSURLRequest *request = [self iotRestfulRequest:uri method:@"POST" data:jsonData];
     
     [self taskStatusRequest:request completion:^(long status, NSError *error) {
         if(completion){
             completion(status, error);  // 主要判斷是否有error
+        }
+    }];
+}
+
+-(void) reconfigureData:(NSString*) serialId withDigest:(NSString*) digest completion:(void(^)(long status, NSData* data, NSError *error))completion
+{
+    NSData *jsonData = nil;
+    NSString *uri = [NSString stringWithFormat:@"/v1/registry/%@",serialId];
+    IProvision *provision = [IProvision new];
+    provision.op = @"Reconfigure";
+    provision.digest = digest;
+    jsonData = [provision toJSONData];
+    NSURLRequest *request = [self iotRestfulRequest:uri method:@"POST" data:jsonData];
+    
+    [self taskStatusDataRequest:request completion:^(long status, NSData* data, NSError *error) {
+        if(completion){
+            completion(status, data, error);  // 主要判斷是否有error
         }
     }];
 }
@@ -485,7 +502,7 @@
     provision.op = @"SetDeviceId";
     provision.digest = digest;
     provision.deviceId = deviceId;
-    
+    jsonData = [provision toJSONData];
     NSURLRequest *request = [self iotRestfulRequest:uri method:@"POST" data:jsonData];
     
     [self taskStatusRequest:request completion:^(long status, NSError *error) {
@@ -519,6 +536,33 @@
             }
         }
     }];
+    
+    [task resume];
+}
+
+- (void)taskStatusDataRequest:(NSURLRequest*)request completion:(void(^)(long status, NSData *jsonData, NSError *error))completion
+{
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error)
+                                  {
+                                      
+                                      if (error == nil){
+                                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                          NSLog(@"response status code: %ld", (long)[httpResponse statusCode]);
+                                          if(completion){
+                                              completion((long)[httpResponse statusCode], data, error);
+                                          }
+                                      }else{
+                                          if(error.code == 404){
+                                              NSLog(@"404");
+                                          }else{
+                                              NSLog(@"connect error:%@",error);
+                                          }
+                                          if(completion){
+                                              completion(error.code, data, error);
+                                          }
+                                      }
+                                  }];
     
     [task resume];
 }
