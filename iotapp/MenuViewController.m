@@ -7,7 +7,6 @@
 //
 
 #import "MenuViewController.h"
-#import "ColorViewController.h"
 #import "ViewController.h"
 
 #import "SWRevealViewController.h"
@@ -77,14 +76,9 @@
     // configure the destination view controller:
     if ( [sender isKindOfClass:[UITableViewCell class]] )
     {
-        UILabel* c = [(SWUITableViewCell *)sender label];
-        UINavigationController *navController = segue.destinationViewController;
-        ColorViewController* cvc = [navController childViewControllers].firstObject;
-        if ( [cvc isKindOfClass:[ColorViewController class]] )
-        {
-            cvc.color = c.textColor;
-            cvc.text = c.text;
-        }
+        //UILabel* c = [(SWUITableViewCell *)sender label];
+        //UINavigationController *navController = segue.destinationViewController;
+        
     }
 }
 

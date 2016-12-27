@@ -25,5 +25,6 @@
 @property (nonatomic, strong) IDevice* device;
 
 @property (weak, nonatomic) IBOutlet UITableView *sensorsTableView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @end

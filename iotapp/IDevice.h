@@ -19,7 +19,8 @@
 @property (strong, nonatomic) NSString* uri;
 @property (strong, nonatomic) NSNumber* lat;
 @property (strong, nonatomic) NSNumber* lon;
-@property (strong, nonatomic) IAttribute* attributes;
+@property (strong, nonatomic) NSArray<IAttribute *>* attributes;
+//@property (strong, nonatomic) NSString* attributes;
 
 
 @end

@@ -26,5 +26,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *devicesTableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
+- (IBAction)addAction:(id)sender;
 
 @end

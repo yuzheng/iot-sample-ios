@@ -9,6 +9,7 @@
 
 #import "MyDevicesViewController.h"
 #import "DeviceViewController.h"
+#import "EditDeviceViewController.h"
 #import "DeviceTableViewCell.h"
 #import "SWRevealViewController.h"
 
@@ -33,11 +34,23 @@
     
     [self customSetup];
     
+    /*
+    // move to viewDidAppear
+    if([self checkIoTKey]){
+        client = [[OpenRESTfulClient alloc] init];
+        [client setupApiKey:apiKey];
+      
+        [self loadDevices];
+    } 
+     */
+}
+
+- (void)viewDidAppear:(BOOL)animated {
     if([self checkIoTKey]){
         client = [[OpenRESTfulClient alloc] init];
         [client setupApiKey:apiKey];
         [self loadDevices];
-    } 
+    }
 }
 
 - (void)customSetup
@@ -81,16 +94,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -99,6 +104,14 @@
         DeviceViewController *vc = [segue destinationViewController];
         vc.apiKey = apiKey;
         vc.device = devicesData[selectedTag];
+    }else if([[segue identifier] isEqualToString:@"editDeviceSegue"]){
+        EditDeviceViewController *ec = [segue destinationViewController];
+        ec.apiKey = apiKey;
+        if(selectedTag == -1){
+            ec.device = NULL;
+        }else{
+            ec.device = devicesData[selectedTag];
+        }
     }
 }
 
@@ -117,10 +130,12 @@
          }
          */
         [self.devicesTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.activityIndicatorView stopAnimating];
+        });
     }];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.activityIndicatorView stopAnimating];
-    });
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -168,6 +183,56 @@
         [self performSegueWithIdentifier:@"deviceSegue" sender:self];
     }
 }
+/*
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"commitEditingStyle");
+ 
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleNone;
+}
+ */
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@" Edit " handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //insert your editAction here
+        selectedTag = [tableView cellForRowAtIndexPath:indexPath].tag;
+        [self performSegueWithIdentifier:@"editDeviceSegue" sender:self];
+        
+        [tableView setEditing:NO animated:YES];
+        
+    }];
+    editAction.backgroundColor = [UIColor colorWithRed:0/255.0 green:102/255.0 blue:153/255.0 alpha:1.0];
+    
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //add deleteAction code here
+        [client deleteDevice:((IDevice*)devicesData[indexPath.row]).id completion:^(long status, NSError *error) {
+
+            NSLog(@"status:%ld",status);
+            if(status == 200){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [devicesData removeObjectAtIndex:indexPath.row];
+                    // 刪除儲存格
+                    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    
+                    return;
+
+                });
+            }
+        }];
+    }];
+    deleteAction.backgroundColor = [UIColor redColor];
+    return @[deleteAction,editAction];
+}
 
 - (void) showAlertTitle:(NSString* ) title message:(NSString*) message handler:(void (^ __nullable)(UIAlertAction *action))handler
 {
@@ -184,4 +249,26 @@
         });
 }
 
+- (IBAction)addAction:(id)sender {
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"新增設備"
+                                                                   message:@"請選擇底下任一方式新增設備"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* registry= [UIAlertAction actionWithTitle:@"設備納管"
+                                                    style:UIAlertActionStyleDefault
+                                                  handler:^(UIAlertAction * _Nonnull action) {
+                                                      //
+                                                      [appDeleage showRegistry];
+                                                  }];
+    UIAlertAction* custom= [UIAlertAction actionWithTitle:@"自建設備"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+                                                        //
+                                                        selectedTag = -1;
+                                                        [self performSegueWithIdentifier:@"editDeviceSegue" sender:self];
+                                                    }];
+    [alert addAction:registry];
+    [alert addAction:custom];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 @end

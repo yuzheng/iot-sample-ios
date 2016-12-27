@@ -54,8 +54,6 @@
         
         
     }else{
-       
-       
         self.sensorValueLabel.text = value;
     }
 }

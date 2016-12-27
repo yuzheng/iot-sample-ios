@@ -37,6 +37,13 @@
     [self loadSensors];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if(mqtt){
+        [mqtt stop];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -116,6 +123,10 @@
         }
     }
     [self.sensorsTableView reloadData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activityIndicatorView stopAnimating];
+    });
 }
 
 - (void)onHeartBeat:(NSString *)topic data:(IHeartbeat *)data {
@@ -215,6 +226,51 @@
             [self performSegueWithIdentifier:@"sensorSnapshotSegue" sender:self];
         }
     }
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"cell:%@",[tableView cellForRowAtIndexPath:indexPath].reuseIdentifier);
+    UITableViewRowAction *setDataAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@"Change" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //insert your setDataAction here
+        
+        
+        
+    }];
+    setDataAction.backgroundColor = [UIColor orangeColor];
+    
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@" Edit " handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //insert your editAction here
+        
+        
+        
+    }];
+    editAction.backgroundColor = [UIColor colorWithRed:0/255.0 green:102/255.0 blue:153/255.0 alpha:1.0];
+    
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //add deleteAction code here
+        /*
+        [client deleteDevice:((IDevice*)devicesData[indexPath.row]).id completion:^(long status, NSError *error) {
+            
+            NSLog(@"status:%ld",status);
+            if(status == 200){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [devicesData removeObjectAtIndex:indexPath.row];
+                    // 刪除儲存格
+                    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    
+                    return;
+                    
+                });
+            }
+        }];
+         */
+    }];
+    deleteAction.backgroundColor = [UIColor redColor];
+    
+    return @[deleteAction,editAction];
+    //return @[deleteAction,editAction,setDataAction];
 }
 
 

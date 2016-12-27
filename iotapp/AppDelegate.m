@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "MyDevicesViewController.h"
-
+#import "RegistryViewController.h"
 #import "SWRevealViewController.h"
 
 
@@ -22,6 +22,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    locationManager = [CLLocationManager new];
+    [locationManager requestWhenInUseAuthorization];
+    
     return YES;
 }
 
@@ -146,6 +150,17 @@
     SWRevealViewController *revealViewController = (SWRevealViewController*) self.window.rootViewController;
     UINavigationController* navController = (UINavigationController*)revealViewController.frontViewController;
     [navController setViewControllers: @[devicesViewController] animated: YES];
+    [revealViewController setFrontViewController:navController];
+    [revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
+}
+
+- (void) showRegistry {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //ViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
+    RegistryViewController* registryViewController = [storyboard instantiateViewControllerWithIdentifier:@"registryViewController"];
+    SWRevealViewController *revealViewController = (SWRevealViewController*) self.window.rootViewController;
+    UINavigationController* navController = (UINavigationController*)revealViewController.frontViewController;
+    [navController setViewControllers: @[registryViewController] animated: YES];
     [revealViewController setFrontViewController:navController];
     [revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
 }

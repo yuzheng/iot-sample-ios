@@ -53,6 +53,9 @@
         
         // read plist
         apiKey = [plistDictionary objectForKey:IOT_KEY];
+        // set apiKey to userDefault
+        [userDefaults setObject:apiKey forKey:IOT_KEY];
+        [userDefaults synchronize];
         NSLog(@"iot.plist apiKey:%@",apiKey);
         
     }else{
@@ -109,9 +112,11 @@
 }
 
 - (IBAction)touchMyDevices:(id)sender {
+    
 }
 
 - (IBAction)touchRegistryDevice:(id)sender {
+    
 }
 
 //
