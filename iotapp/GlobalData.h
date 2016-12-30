@@ -15,5 +15,7 @@
 + (GlobalData*) sharedGlobalData;
 
 - (NSString*) fetchIoTKey;
+- (BOOL) checkValue:(NSString* )value;
 
+- (NSString*) utcDate:(NSDate*) date;
 @end

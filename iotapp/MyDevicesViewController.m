@@ -260,6 +260,7 @@
                                                       //
                                                       [appDeleage showRegistry];
                                                   }];
+    
     UIAlertAction* custom= [UIAlertAction actionWithTitle:@"自建設備"
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * _Nonnull action) {
@@ -267,8 +268,15 @@
                                                         selectedTag = -1;
                                                         [self performSegueWithIdentifier:@"editDeviceSegue" sender:self];
                                                     }];
+    
+    UIAlertAction* cancel= [UIAlertAction actionWithTitle:@"取消"
+                                                    style:UIAlertActionStyleCancel
+                                                  handler:^(UIAlertAction * _Nonnull action) {
+                                                     
+                                                  }];
     [alert addAction:registry];
     [alert addAction:custom];
+    [alert addAction:cancel];
     [self presentViewController:alert animated:YES completion:nil];
 }
 @end

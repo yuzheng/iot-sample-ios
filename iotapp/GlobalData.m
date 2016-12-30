@@ -52,4 +52,26 @@ static GlobalData *sharedGlobalData = nil;
     }
 }
 
+- (BOOL) checkValue:(NSString* )value {
+    if(value == NULL){
+        return false;
+    }
+    if(value.length > 0){
+        return true;
+    }
+    return false;
+}
+
+- (NSString*) utcDate:(NSDate*) date {
+    NSTimeZone *timeZone = [NSTimeZone defaultTimeZone];
+    // or Timezone with specific name like
+    // [NSTimeZone timeZoneWithName:@"Europe/Riga"] (see link below)
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:timeZone];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    NSString *localDateString = [dateFormatter stringFromDate:date];
+
+    return localDateString;
+}
+
 @end

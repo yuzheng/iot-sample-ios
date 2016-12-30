@@ -296,7 +296,7 @@
 }
 
 - (void) connected:(MQTTSession *)session {
-    NSLog(@"MQTT connected!");
+    NSLog(@"***** MQTT connected! *****");
     connected = TRUE;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(didConnected)])
@@ -306,7 +306,7 @@
 }
 
 - (void) connectionClosed:(MQTTSession *)session {
-    NSLog(@"MQTT connect closed!");
+    NSLog(@"***** MQTT connect closed! *****");
     connected = FALSE;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(didConnectClosed)])

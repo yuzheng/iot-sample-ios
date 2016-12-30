@@ -7,6 +7,9 @@
 //
 
 #import "SnapshotViewController.h"
+#import "RawdataTableViewCell.h"
+
+#import "GlobalData.h"
 
 #define SNAPSHOT_SENSOR @"ssss"
 #define SNAPSHOT_DEVICE @"271290572"
@@ -29,6 +32,9 @@
     if(self.sensor != nil){
         iSensorId = self.sensor.id;
     }
+    
+    self.snapshotTableView.dataSource = self;
+    self.snapshotTableView.delegate = self;
     
     NSLog(@"Snapshot device: %@ - %@",iDeviceId, iSensorId);
     
@@ -56,6 +62,32 @@
 
 - (void) initSnapshot {
     [self getSnapshot:nil withSensor:iSensorId withDevice:iDeviceId ];
+    
+    
+    snapshotsData = [NSMutableArray new];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *comps = [NSDateComponents new];
+    
+    NSDate *endDate = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
+    //comps.month = -1;
+    comps.day   = -7;
+    NSDate *startDate = [calendar dateByAddingComponents:comps toDate:endDate options:0];
+    
+    self.intervalLabel.text = [NSString stringWithFormat:@"  %@ - %@  ",[[GlobalData sharedGlobalData] utcDate:startDate],[[GlobalData sharedGlobalData] utcDate:endDate]];
+    
+    [client getSnapshotMetaWithSensor:self.sensor.id withDevice:self.device.id withStart:[[GlobalData sharedGlobalData] utcDate:startDate] withEnd:[[GlobalData sharedGlobalData] utcDate:endDate] completion:^(NSArray<IRawdata *> *rawdatas, NSError *error) {
+        NSLog(@"rawdatas: %lu",(unsigned long)[rawdatas count]);
+        
+        NSArray* reverseRawdatas = [[rawdatas reverseObjectEnumerator] allObjects];
+        
+        for(IRawdata *rawdata in reverseRawdatas){
+            [snapshotsData addObject:rawdata];
+        }
+        
+        [self.snapshotTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    }];
+
 }
 
 - (void) getSnapshot:(NSString*) snapshotId withSensor:(NSString*) sensorId withDevice:(NSString*) deviceId
@@ -204,6 +236,55 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.activityIndicatorView stopAnimating];
     });
+}
+
+#pragma mark -
+#pragma mark UITableViewDelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [snapshotsData count];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    
+    return 0.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 45.0f;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger index = indexPath.row;
+    
+    NSString *cellIdentifier = @"snapshotCell";
+    
+    //NSLog(@"cellIdentifier:%@",cellIdentifier);
+    RawdataTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    [cell initCell:snapshotsData[index]];
+    cell.tag = index;
+    //cell.delegate = self;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    IRawdata *rawdata = snapshotsData[indexPath.row];
+    NSArray *snapshotComponents = [rawdata.value[0] componentsSeparatedByString:@"://"];
+    if([snapshotComponents count] == 2){
+        NSLog(@"%@, %@, %@",snapshotComponents[1],rawdata.id, rawdata.deviceId);
+        [self getSnapshot:snapshotComponents[1] withSensor:rawdata.id withDevice:self.device.id];
+    }
 }
 
 @end

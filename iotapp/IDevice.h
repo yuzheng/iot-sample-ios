@@ -20,7 +20,5 @@
 @property (strong, nonatomic) NSNumber* lat;
 @property (strong, nonatomic) NSNumber* lon;
 @property (strong, nonatomic) NSArray<IAttribute *>* attributes;
-//@property (strong, nonatomic) NSString* attributes;
-
 
 @end

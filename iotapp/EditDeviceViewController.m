@@ -9,7 +9,7 @@
 #import "EditDeviceViewController.h"
 #import "AttributeTableViewCell.h"
 #import "OpenRESTfulClient.h"
-#import "BWJSONMatcher.h"
+#import "GlobalData.h"
 
 @interface EditDeviceViewController ()
 
@@ -33,8 +33,8 @@
     self.navigationItem.rightBarButtonItem.enabled = YES;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveDevice)];
     
-    
-    
+    self.nameTextField.delegate = self;
+    self.descTextField.delegate = self;
     //tableview
     self.attributesTableView.dataSource = self;
     self.attributesTableView.delegate = self;
@@ -65,7 +65,7 @@
             [attributesData addObject:attribute];
         }
     }else{
-        // empty
+        // empty attribute
     }
 }
 
@@ -82,8 +82,7 @@
     //attributes
     self.device.attributes = attributesData;
     
-    //location
-    if( [self checkValue:self.device.name] ) {
+    if( [[GlobalData sharedGlobalData] checkValue:self.device.name] ) {
     
         OpenRESTfulClient* client = [[OpenRESTfulClient alloc] init];
         [client setupApiKey:self.apiKey];
@@ -116,16 +115,6 @@
     }
 }
 
-- (BOOL) checkValue:(NSString* )value {
-    if(value == NULL){
-        return false;
-    }
-    if(value.length > 0){
-        return true;
-    }
-    return false;
-}
-
 /*
 #pragma mark - Navigation
 
@@ -139,6 +128,11 @@
 // touch outside textfiled to hide keyboard
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return NO;
 }
 
 #pragma mark - locate
@@ -193,7 +187,7 @@
         //
         NSString *strLat = ((UITextField*)[alertController.textFields objectAtIndex:0]).text;
         NSString *strLon = ((UITextField*)[alertController.textFields objectAtIndex:1]).text;
-        if([self checkValue:strLat] && [self checkValue:strLon]){
+        if([[GlobalData sharedGlobalData] checkValue:strLat] && [[GlobalData sharedGlobalData] checkValue:strLon]){
             self.device.lat = [NSNumber numberWithFloat:[strLat floatValue]];
             self.device.lon = [NSNumber numberWithFloat:[strLon floatValue]];
             [self setDeviceLat:[strLat floatValue] lon:[strLon floatValue]];

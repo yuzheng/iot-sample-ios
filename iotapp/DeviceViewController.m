@@ -7,11 +7,14 @@
 //
 
 #import "DeviceViewController.h"
-
 #import "SnapshotViewController.h"
+#import "RawdataViewController.h"
+#import "EditSensorViewController.h"
+
+#import "GlobalData.h"
 
 @interface DeviceViewController ()
-@property (nonatomic, strong, readonly) OpenMqttClient *mqttClient;
+@property (nonatomic, strong, readonly) OpenMqttClient *mqtt;
 @end
 
 @implementation DeviceViewController
@@ -22,25 +25,34 @@
     
     self.navigationItem.title = self.device.name;
     
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addSensor)];
+    
     // set datasource and delegate
     self.sensorsTableView.dataSource = self;
     self.sensorsTableView.delegate = self;
-    
-    mqtt = [[OpenMqttClient alloc] init];
-    [mqtt usingTLS:TRUE];
-    [mqtt setupApiKey:self.apiKey];
-    mqtt.delegate = self;
-    [mqtt doConnect];
-    
-    client = [[OpenRESTfulClient alloc] init];
-    [client setupApiKey:self.apiKey];
-    [self loadSensors];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    if(_mqtt == NULL){
+        _mqtt = [[OpenMqttClient alloc] init];
+        [_mqtt usingTLS:TRUE];
+        [_mqtt setupApiKey:self.apiKey];
+        _mqtt.delegate = self;
+        [_mqtt doConnect];
+        
+        client = [[OpenRESTfulClient alloc] init];
+        [client setupApiKey:self.apiKey];
+        [self loadSensors];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    if(mqtt){
-        [mqtt stop];
+    if(_mqtt){
+        [_mqtt stop];
+        _mqtt = NULL;
     }
 }
 
@@ -67,6 +79,21 @@
         vc.device = self.device;
         vc.apiKey = self.apiKey;
         vc.sensor = [sensorsData[selectedTag] objectForKey:@"sensor"];
+    }else if([[segue identifier] isEqualToString:@"sensorRawdataSegue"]){
+        RawdataViewController *rc = [segue destinationViewController];
+        rc.device = self.device;
+        rc.apiKey = self.apiKey;
+        rc.sensor = [sensorsData[selectedTag] objectForKey:@"sensor"];
+    }else if([[segue identifier] isEqualToString:@"editSensorSegue"]) {
+        EditSensorViewController *ec = [segue destinationViewController];
+        ec.apiKey = self.apiKey;
+        ec.device = self.device;
+        if(selectedTag == -1){
+            ec.sensor = NULL;
+        }else{
+            NSDictionary *dictSensor = [sensorsData objectAtIndex:selectedTag];
+            ec.sensor = [dictSensor objectForKey:@"sensor"];
+        }
     }
 }
 
@@ -87,7 +114,7 @@
             NSLog(@"getSensor : sensor name:%@",sensor.name);
             
             //MQTT Subscribe
-            [mqtt subscribeDevice:self.device.id sensor:sensor.id];
+            [_mqtt subscribeDevice:self.device.id sensor:sensor.id];
             
             [client getRawdataWithSensor:sensor.id withDevice:self.device.id completion:^(IRawdata *rawdata, NSError *error) {
                 NSLog(@"getSensor : rawdata time:%@",rawdata.time);
@@ -97,9 +124,16 @@
                 NSLog(@"count:%ld",(long)[sensorsData count]);
                 
                 [self.sensorsTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+                
             }];
         }
     }];
+}
+
+- (void) addSensor
+{
+    selectedTag = -1;
+    [self performSegueWithIdentifier:@"editSensorSegue" sender:self];
 }
 
 #pragma mark -
@@ -224,6 +258,8 @@
         ISensor *sensor = [sensorsData[selectedTag] objectForKey:@"sensor"];
         if([sensor.type isEqualToString:@"snapshot"]){
             [self performSegueWithIdentifier:@"sensorSnapshotSegue" sender:self];
+        }else{
+            [self performSegueWithIdentifier:@"sensorRawdataSegue" sender:self];
         }
     }
 }
@@ -231,32 +267,35 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"cell:%@",[tableView cellForRowAtIndexPath:indexPath].reuseIdentifier);
-    UITableViewRowAction *setDataAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@"Change" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+    UITableViewRowAction *setDataAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@"  Set  " handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         //insert your setDataAction here
         
+        [self setSensorValue:indexPath.row];
         
         
     }];
-    setDataAction.backgroundColor = [UIColor orangeColor];
+    setDataAction.backgroundColor = [UIColor colorWithRed:39/255.0 green:209/255.0 blue:51/255.0 alpha:1.0];
     
-    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@" Edit " handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle: UITableViewRowActionStyleNormal title:@" Edit  " handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         //insert your editAction here
         
-        
+        selectedTag = indexPath.row;
+        [self performSegueWithIdentifier:@"editSensorSegue" sender:self];
         
     }];
     editAction.backgroundColor = [UIColor colorWithRed:0/255.0 green:102/255.0 blue:153/255.0 alpha:1.0];
     
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         //add deleteAction code here
-        /*
-        [client deleteDevice:((IDevice*)devicesData[indexPath.row]).id completion:^(long status, NSError *error) {
-            
+        
+        NSDictionary *dictSensor = [sensorsData objectAtIndex:indexPath.row];
+        ISensor* sensor = [dictSensor objectForKey:@"sensor"];
+        [client deleteSensor:sensor.id withDevice:self.device.id completion:^(long status, NSError *error) {
             NSLog(@"status:%ld",status);
             if(status == 200){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    [devicesData removeObjectAtIndex:indexPath.row];
+                    [sensorsData removeObjectAtIndex:indexPath.row];
                     // 刪除儲存格
                     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     
@@ -265,13 +304,50 @@
                 });
             }
         }];
-         */
     }];
     deleteAction.backgroundColor = [UIColor redColor];
     
+    if([[tableView cellForRowAtIndexPath:indexPath].reuseIdentifier isEqualToString:@"sensorCell"]){
+        return @[deleteAction,editAction,setDataAction];
+    }
+    
     return @[deleteAction,editAction];
-    //return @[deleteAction,editAction,setDataAction];
 }
+
+- (void) setSensorValue:(NSInteger) index
+{
+    NSDictionary *dictSensor = [sensorsData objectAtIndex:index];
+    ISensor* sensor = [dictSensor objectForKey:@"sensor"];
+    NSString *message = [NSString stringWithFormat:@"變更感測器『%@』數值",sensor.name];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"變更感測器數值" message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            //
+        }];
+    }];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //
+        NSString *strVal = ((UITextField*)[alertController.textFields objectAtIndex:0]).text;
+        
+        if([[GlobalData sharedGlobalData] checkValue:strVal] ){
+            [_mqtt saveDevice:self.device.id sensor:sensor.id value:@[strVal]];
+        }
+        
+    }];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"感測器數值";
+    }];
+    
+    [alertController addAction:cancelAction];
+    
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 
 @end

@@ -15,7 +15,6 @@
 {
     
     OpenRESTfulClient* client;
-    OpenMqttClient* mqtt;
     NSMutableArray *sensorsData;
     
     NSInteger selectedTag;

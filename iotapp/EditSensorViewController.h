@@ -1,35 +1,33 @@
 //
-//  EditDeviceViewController.h
+//  EditSensorViewController.h
 //  iotapp
 //
-//  Created by chttl on 2016/12/23.
+//  Created by chttl on 2016/12/27.
 //  Copyright © 2016年 chttl. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
 
 #import "IDevice.h"
+#import "ISensor.h"
 #import "AttributeTableViewCell.h"
 
-@interface EditDeviceViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate, AttributeCellDelegate>
+@interface EditSensorViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, AttributeCellDelegate>
 {
-    MKPointAnnotation* ann;
     NSMutableArray *attributesData;
-    
-    CLLocationManager *locationManager;
 }
-
 @property (nonatomic, strong) NSString* apiKey;
 @property (nonatomic, strong) IDevice* device;
-@property (weak, nonatomic) IBOutlet UILabel *idLabel;
+@property (nonatomic, strong) ISensor* sensor;
+
+@property (weak, nonatomic) IBOutlet UITextField *idTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *descTextField;
-@property (weak, nonatomic) IBOutlet UITableView *attributesTableView;
-@property (weak, nonatomic) IBOutlet MKMapView *locationMapView;
+@property (weak, nonatomic) IBOutlet UIButton *typeButton;
 
+@property (weak, nonatomic) IBOutlet UITableView *attributesTableView;
+
+- (IBAction)touchType:(id)sender;
 - (IBAction)touchAdd:(id)sender;
-- (IBAction)touchLocate:(id)sender;
 
 @end

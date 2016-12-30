@@ -271,8 +271,13 @@
     NSURLRequest *request = [self iotRestfulRequest:[NSString stringWithFormat:@"%@%@",uri,param] method:@"GET" data:jsonData];
     
     [self taskDataRequest:request completion:^(NSData *jsonData, NSError *error) {
-        NSArray* rawdatas = [BWJSONMatcher matchJSONData:jsonData withClass:[IRawdata class]];
-        
+        NSArray* rawdatas;
+        if(start == nil){
+            IRawdata* rawdata = [IRawdata fromJSONData:jsonData];
+            rawdatas = @[rawdata];
+        }else{
+            rawdatas = [BWJSONMatcher matchJSONData:jsonData withClass:[IRawdata class]];
+        }
         if(completion){
             completion(rawdatas, error);
         }
@@ -372,11 +377,19 @@
     if([param length] != 0){
         param = [NSString stringWithFormat:@"?%@",param];
     }
+    NSLog(@"url:%@",[NSString stringWithFormat:@"%@%@",uri,param]);
     NSURLRequest *request = [self iotRestfulRequest:[NSString stringWithFormat:@"%@%@",uri,param] method:@"GET" data:jsonData];
     
     [self taskDataRequest:request completion:^(NSData *jsonData, NSError *error) {
-        NSArray* rawdatas = [BWJSONMatcher matchJSONData:jsonData withClass:[IRawdata class]];
+        //NSLog(@"%@",[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+        NSArray* rawdatas;
         
+        if(start == nil){
+            IRawdata* rawdata = [IRawdata fromJSONData:jsonData];
+            rawdatas = @[rawdata];
+        }else{
+            rawdatas = [BWJSONMatcher matchJSONData:jsonData withClass:[IRawdata class]];
+        }
         if(completion){
             completion(rawdatas, error);
         }

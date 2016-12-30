@@ -19,6 +19,6 @@
 @property (strong, nonatomic) NSString* uri;
 @property (strong, nonatomic) NSString* unit;
 @property (strong, nonatomic) NSString* formula;
-@property (strong, nonatomic) IAttribute* attributes;
+@property (strong, nonatomic) NSArray<IAttribute *>* attributes;
 
 @end
