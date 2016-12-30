@@ -8,16 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "OpenRESTfulClient.h"
+#import "OpenMqttClient.h"
 #import "IDevice.h"
 #import "ISensor.h"
 
-@interface RawdataViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+#import "JBChartView.h"
+#import "JBLineChartView.h"
+
+@interface RawdataViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, OpenMqttClientDelegate, JBLineChartViewDelegate, JBLineChartViewDataSource >
 {
     OpenRESTfulClient* client;
     
     NSMutableArray* rawdataData;
     
     BOOL save;
+    BOOL showChartLine;
 }
 @property (nonatomic, strong) NSString* apiKey;
 @property (nonatomic, strong) IDevice* device;
@@ -27,5 +32,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *endDateLabel;
 
 @property (weak, nonatomic) IBOutlet UITableView *rawdataTableView;
+
+@property (weak, nonatomic) IBOutlet JBLineChartView *lineChartView;
+@property (weak, nonatomic) IBOutlet UILabel *chartTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *chartValueLabel;
+
 
 @end

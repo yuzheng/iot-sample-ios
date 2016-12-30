@@ -9,4 +9,5 @@ target 'iotapp' do
   pod 'MQTTClient'
   pod 'SWRevealViewController', '~> 2.1'
   pod 'QRCodeReaderViewController', '~> 4.0.2'
+  pod 'JBChartView'
 end

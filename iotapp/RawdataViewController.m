@@ -11,7 +11,7 @@
 #import "GlobalData.h"
 
 @interface RawdataViewController ()
-
+@property (nonatomic, strong, readonly) OpenMqttClient *mqtt;
 @end
 
 @implementation RawdataViewController
@@ -31,11 +31,48 @@
     
     [self initSensorRawdata];
     
+    showChartLine = FALSE;
+    if([self.sensor.type isEqualToString:@"gauge"]){
+        
+        CGRect frame = self.rawdataTableView.frame;
+        frame.size.height = frame.size.height - self.lineChartView.frame.size.height;
+        [self.rawdataTableView setFrame:frame];
+        
+        self.lineChartView.dataSource = self;
+        self.lineChartView.delegate = self;
+        [self.lineChartView setFooterPadding:10.0f];
+        [self.lineChartView setHeaderPadding:80.0f];
+        [self.lineChartView setShowsVerticalSelection:TRUE];
+        
+        showChartLine = TRUE;
+    }else{
+        [self.lineChartView setHidden:TRUE];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    if(_mqtt == NULL){
+        _mqtt = [[OpenMqttClient alloc] init];
+        [_mqtt usingTLS:TRUE];
+        [_mqtt setupApiKey:self.apiKey];
+        _mqtt.delegate = self;
+        [_mqtt doConnect];
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if(_mqtt){
+        [_mqtt stop];
+        _mqtt = NULL;
+    }
 }
 
 /*
@@ -50,6 +87,7 @@
 
 - (void) initSensorRawdata
 {
+    
     rawdataData = [NSMutableArray new];
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -72,6 +110,12 @@
         }
         
         [self.rawdataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        
+        
+        if(showChartLine) {
+            [self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        }
+        
     }];
     
 }
@@ -120,5 +164,92 @@
 {
     
 }
+
+#pragma mark -
+#pragma mark OpenMqttClientDelegate
+- (void)didConnected {
+    NSLog(@"ViewController: mqtt is connected");
+    //subscribe topic
+    [_mqtt subscribeDevice:self.device.id sensor:self.sensor.id];
+}
+
+- (void)didConnectClosed {
+    NSLog(@"ViewController: mqtt is connect closed");
+}
+
+- (void)onRawdata:(NSString *)topic data:(IRawdata *)data {
+    NSLog(@"ViewController: onRawdata: %@: %@ %@" ,topic, data.id, [data.value componentsJoinedByString:@","]);
+    IRawdata *lastRawdata = NULL;
+    if([rawdataData count] > 0 ){
+        lastRawdata = [rawdataData objectAtIndex:0];
+    }
+    if(lastRawdata == NULL || (![data.time isEqual:lastRawdata.time] && ![data.value isEqual:lastRawdata.value] )){
+        NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:rawdataData];
+        [rawdataData removeAllObjects];
+        [rawdataData addObject:data];
+        [rawdataData addObjectsFromArray:tempArray];
+        
+        [self.rawdataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        
+        if(showChartLine) {
+            [self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        }
+    }
+    
+    /*
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activityIndicatorView stopAnimating];
+    });
+     */
+}
+
+- (void)onHeartBeat:(NSString *)topic data:(IHeartbeat *)data {
+    NSLog(@"ViewController: onHeartBeat: %@: %@",topic, data.type);
+}
+
+- (void) onReconfigure:(NSString *)topic data:(IProvision *)data {
+    NSLog(@"ViewController: onReconfigure: %@: %@ %@ %@",topic, data.op, data.ck, data.deviceId);
+}
+
+- (void)onSetDeviceId:(NSString *)topic data:(IProvision *)data {
+    NSLog(@"ViewController: onSetDeviceId: %@: %@ %@ %@",topic, data.op, data.ck, data.deviceId);
+}
+
+#pragma mark - JBLineChart
+- (NSUInteger)numberOfLinesInLineChartView:(JBLineChartView *)lineChartView
+{
+    return 1; // number of lines in chart
+}
+
+- (NSUInteger)lineChartView:(JBLineChartView *)lineChartView numberOfVerticalValuesAtLineIndex:(NSUInteger)lineIndex
+{
+    return [rawdataData count]; // number of values for a line
+}
+
+- (CGFloat)lineChartView:(JBLineChartView *)lineChartView verticalValueForHorizontalIndex:(NSUInteger)horizontalIndex atLineIndex:(NSUInteger)lineIndex
+{
+    
+    IRawdata *rawdata = [rawdataData objectAtIndex:([rawdataData count] - horizontalIndex - 1)];
+    return [rawdata.value[0] floatValue];
+}
+
+- (BOOL)lineChartView:(JBLineChartView *)lineChartView showsDotsForLineAtLineIndex:(NSUInteger)lineIndex
+{
+    return false;
+}
+
+- (UIColor *)lineChartView:(JBLineChartView *)lineChartView colorForLineAtLineIndex:(NSUInteger)lineIndex
+{
+    return [UIColor whiteColor];
+}
+
+- (void)lineChartView:(JBLineChartView *)lineChartView didSelectLineAtIndex:(NSUInteger)lineIndex horizontalIndex:(NSUInteger)horizontalIndex touchPoint:(CGPoint)touchPoint
+{
+    NSLog(@"didSelectLineAtIndex: %lu",(unsigned long)horizontalIndex);
+    IRawdata *rawdata = [rawdataData objectAtIndex:([rawdataData count] - horizontalIndex - 1)];
+    self.chartTimeLabel.text = rawdata.time;
+    self.chartValueLabel.text = rawdata.value[0];
+}
+
 
 @end
