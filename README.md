@@ -25,6 +25,8 @@ $ pod install
 - 'CocoaAsyncSocket'
 - 'MQTTClient'
 - 'SWRevealViewController', '~> 2.1'
+- 'QRCodeReaderViewController', '~> 4.0.2'
+- 'JBChartView'
 
 完成後，即可點選專案目錄底下 iotapp.xcworkspace 開啟 XCode 並進行開發
 
@@ -32,18 +34,16 @@ $ pod install
 
 #### CHT IoT Group
 
-Cloud Mode:
-
 - OpenRESTfulClient: 負責處理IoT平台RESTful協定
 - OpenMqttClient: 負責處理IoT平台MQTT協定
 
-Local Mode:
+### CHT IoT App
 
-- ControllerClient: 負責處理與設備間協定溝通
-- ControllerClientBuilder: 負責處理監聽設備Broadcast的announcement資訊
-- LocalModeProtocol: 負責處理Local mode各個協定package內容產生與資訊讀取
-
-Test Code: 測試程式
-
-- ViewController: 撰寫一測試使用 Local mode: ControllerClient與ControllerClinetBuilder, 及 Cloud mode: OpenMqttClient之應用案例
-
+- ViewController: APP 首頁
+- MyDevicesViewController: 我的設備 
+- EditDeviceViewController: 新增/編輯我的設備
+- DeviceViewController: 設備感測器(顯示設備底下感測器列表與最新的感測數據, 使用OpenRESTfulClient與OpenMqttClient之應用)
+- EditSensorViewController: 新增/編輯我的感測器
+- SnapshotViewController: 快照功能服務
+- RawdataViewController: 顯示歷史感測數據資料
+- RegistryViewContoller: 設備納管服務
