@@ -260,6 +260,7 @@
     [lineChart updateChartData:@[chartData]];
 }
 
+// For PNChart xLabel
 - (NSString*) xLabelFilter:(NSString*) str
 {
     NSArray* arr = [str componentsSeparatedByString:@"T"];
