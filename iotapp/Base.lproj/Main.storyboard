@@ -1070,7 +1070,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GbV-t2-Byt" customClass="JBLineChartView">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GbV-t2-Byt">
                                 <rect key="frame" x="0.0" y="466" width="375" height="200"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -1105,7 +1105,7 @@
                         <outlet property="chartTimeLabel" destination="pe0-hI-Vdk" id="Brz-JB-7WY"/>
                         <outlet property="chartValueLabel" destination="TFI-vk-51Q" id="5IF-Un-gPu"/>
                         <outlet property="endDateLabel" destination="4BS-S7-Tec" id="IcD-2H-hay"/>
-                        <outlet property="lineChartView" destination="GbV-t2-Byt" id="1JJ-S0-VZD"/>
+                        <outlet property="lineChartView" destination="GbV-t2-Byt" id="Nda-La-47i"/>
                         <outlet property="rawdataTableView" destination="6tb-rZ-paC" id="m8B-l9-ilx"/>
                         <outlet property="startDateLabel" destination="b1W-45-l7G" id="wB3-Pg-Mee"/>
                     </connections>
@@ -1179,14 +1179,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="9vc-nz-i38">
-                                                    <rect key="frame" x="18" y="11" width="139" height="21"/>
+                                                    <rect key="frame" x="18" y="11" width="138" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="數值" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="ugo-Rr-oLi">
-                                                    <rect key="frame" x="181" y="11" width="175" height="21"/>
+                                                    <rect key="frame" x="180" y="11" width="175" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>

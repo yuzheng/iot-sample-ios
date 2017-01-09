@@ -106,6 +106,9 @@
 {
     [client getSensorsWithDevice:deviceId completion:^(NSArray<ISensor *> *sensors, NSError *error) {
         //sensorsData = [NSMutableArray arrayWithArray:sensors];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.activityIndicatorView stopAnimating];
+        });
         sensorsData = [NSMutableArray new];
         for(ISensor *sensor in sensors){
             NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -157,10 +160,6 @@
         }
     }
     [self.sensorsTableView reloadData];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.activityIndicatorView stopAnimating];
-    });
 }
 
 - (void)onHeartBeat:(NSString *)topic data:(IHeartbeat *)data {

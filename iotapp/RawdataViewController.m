@@ -10,6 +10,10 @@
 #import "RawdataTableViewCell.h"
 #import "GlobalData.h"
 
+#import "PNChart.h"
+#import "PNLineChartData.h"
+#import "PNLineChartDataItem.h"
+
 @interface RawdataViewController ()
 @property (nonatomic, strong, readonly) OpenMqttClient *mqtt;
 @end
@@ -37,12 +41,6 @@
         CGRect frame = self.rawdataTableView.frame;
         frame.size.height = frame.size.height - self.lineChartView.frame.size.height;
         [self.rawdataTableView setFrame:frame];
-        
-        self.lineChartView.dataSource = self;
-        self.lineChartView.delegate = self;
-        [self.lineChartView setFooterPadding:10.0f];
-        [self.lineChartView setHeaderPadding:80.0f];
-        [self.lineChartView setShowsVerticalSelection:TRUE];
         
         showChartLine = TRUE;
     }else{
@@ -113,12 +111,12 @@
         
         
         if(showChartLine) {
-            [self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            [self performSelectorOnMainThread:@selector(showLineChart) withObject:nil waitUntilDone:YES];
+            //[self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         }
-        
     }];
-    
 }
+
 
 #pragma mark -
 #pragma mark UITableViewDelegate
@@ -192,7 +190,12 @@
         [self.rawdataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         
         if(showChartLine) {
-            [self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            //[self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            [xLabels addObject:[self xLabelFilter:data.time]];
+            [yDataArr addObject:data.value[0]];
+            
+            [self performSelectorOnMainThread:@selector(updateLineChart) withObject:nil waitUntilDone:YES];
+            
         }
     }
     
@@ -215,41 +218,58 @@
     NSLog(@"ViewController: onSetDeviceId: %@: %@ %@ %@",topic, data.op, data.ck, data.deviceId);
 }
 
-#pragma mark - JBLineChart
-- (NSUInteger)numberOfLinesInLineChartView:(JBLineChartView *)lineChartView
-{
-    return 1; // number of lines in chart
-}
-
-- (NSUInteger)lineChartView:(JBLineChartView *)lineChartView numberOfVerticalValuesAtLineIndex:(NSUInteger)lineIndex
-{
-    return [rawdataData count]; // number of values for a line
-}
-
-- (CGFloat)lineChartView:(JBLineChartView *)lineChartView verticalValueForHorizontalIndex:(NSUInteger)horizontalIndex atLineIndex:(NSUInteger)lineIndex
-{
+#pragma mark PNChart
+- (void) showLineChart {
+    xLabels = [NSMutableArray new];
+    yDataArr = [NSMutableArray new];
+    for(IRawdata *rawdata in rawdataData){
+        [xLabels insertObject:[self xLabelFilter:rawdata.time] atIndex:0];
+        [yDataArr insertObject:rawdata.value[0] atIndex:0];
+    }
     
-    IRawdata *rawdata = [rawdataData objectAtIndex:([rawdataData count] - horizontalIndex - 1)];
-    return [rawdata.value[0] floatValue];
+    lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0,50.0,self.lineChartView.frame.size.width,(self.lineChartView.frame.size.height - 50.0))];
+    
+    [lineChart setXLabelColor:[UIColor whiteColor]];
+    [lineChart setYLabelColor:[UIColor whiteColor]];
+    [lineChart setXLabels:xLabels];
+    
+    PNLineChartData *chartData = [PNLineChartData new];
+    chartData.color = PNFreshGreen;
+    chartData.itemCount = lineChart.xLabels.count;
+    chartData.getData = ^(NSUInteger index) {
+        CGFloat yValue = [yDataArr[index] floatValue];
+        return [PNLineChartDataItem dataItemWithY:yValue];
+    };
+    
+    lineChart.chartData = @[chartData];
+    [lineChart strokeChart];
+    [lineChart setBackgroundColor:[UIColor clearColor]];
+    [self.lineChartView addSubview:lineChart];
 }
 
-- (BOOL)lineChartView:(JBLineChartView *)lineChartView showsDotsForLineAtLineIndex:(NSUInteger)lineIndex
+- (void) updateLineChart {
+    
+    PNLineChartData *chartData = [PNLineChartData new];
+    chartData.color = PNFreshGreen;
+    chartData.itemCount = lineChart.xLabels.count;
+    chartData.getData = ^(NSUInteger index) {
+        CGFloat yValue = [yDataArr[index] floatValue];
+        return [PNLineChartDataItem dataItemWithY:yValue];
+    };
+    [lineChart setXLabels:xLabels];
+    [lineChart updateChartData:@[chartData]];
+}
+
+- (NSString*) xLabelFilter:(NSString*) str
 {
-    return false;
+    NSArray* arr = [str componentsSeparatedByString:@"T"];
+    if([arr count] == 2){
+        NSArray* arr2 = [arr[1] componentsSeparatedByString:@"."];
+        if([arr2 count] == 2){
+            return arr2[0];
+        }
+        return arr[1];
+    }
+    return str;
 }
-
-- (UIColor *)lineChartView:(JBLineChartView *)lineChartView colorForLineAtLineIndex:(NSUInteger)lineIndex
-{
-    return [UIColor whiteColor];
-}
-
-- (void)lineChartView:(JBLineChartView *)lineChartView didSelectLineAtIndex:(NSUInteger)lineIndex horizontalIndex:(NSUInteger)horizontalIndex touchPoint:(CGPoint)touchPoint
-{
-    NSLog(@"didSelectLineAtIndex: %lu",(unsigned long)horizontalIndex);
-    IRawdata *rawdata = [rawdataData objectAtIndex:([rawdataData count] - horizontalIndex - 1)];
-    self.chartTimeLabel.text = rawdata.time;
-    self.chartValueLabel.text = rawdata.value[0];
-}
-
-
 @end

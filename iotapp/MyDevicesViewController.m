@@ -129,11 +129,12 @@
          NSLog(@"getDevice : device name:%@",device.name);
          }
          */
-        [self.devicesTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.activityIndicatorView stopAnimating];
         });
+        
+        [self.devicesTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        
     }];
     
 }
