@@ -26,7 +26,7 @@ $ pod install
 - 'MQTTClient'
 - 'SWRevealViewController', '~> 2.1'
 - 'QRCodeReaderViewController', '~> 4.0.2'
-- 'JBChartView'
+- 'PNChart'
 
 完成後，即可點選專案目錄底下 iotapp.xcworkspace 開啟 XCode 並進行開發
 
