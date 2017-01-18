@@ -191,8 +191,14 @@
         
         if(showChartLine) {
             //[self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            
+            
             [xLabels addObject:[self xLabelFilter:data.time]];
-            [yDataArr addObject:data.value[0]];
+            if([data.value[0] isEqual:[NSNull null]]) {
+                [yDataArr addObject:[NSNumber numberWithInt:0]];
+            }else{
+                [yDataArr addObject:data.value[0]];
+            }
             
             [self performSelectorOnMainThread:@selector(updateLineChart) withObject:nil waitUntilDone:YES];
             

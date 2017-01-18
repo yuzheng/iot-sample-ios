@@ -177,6 +177,70 @@
 			name = data;
 			sourceTree = "<group>";
 		};
+		977A2F781E238327006D57BC /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				979FDE761E09130A00FC2CD7 /* MyDevicesViewController.h */,
+				979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */,
+				9790ACCE1E0CFAD3003CD1D7 /* EditDeviceViewController.h */,
+				9790ACCF1E0CFAD3003CD1D7 /* EditDeviceViewController.m */,
+			);
+			name = Devices;
+			sourceTree = "<group>";
+		};
+		977A2F791E238360006D57BC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				97A89A4E1E096D3300004FB7 /* GlobalData.h */,
+				97A89A4F1E096D3300004FB7 /* GlobalData.m */,
+				970B25991E11F3C900D6D258 /* AttributeTableViewCell.h */,
+				970B259A1E11F3C900D6D258 /* AttributeTableViewCell.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		977A2F7A1E2383A4006D57BC /* Sensors */ = {
+			isa = PBXGroup;
+			children = (
+				97A89A441E096A1F00004FB7 /* DeviceViewController.h */,
+				97A89A451E096A1F00004FB7 /* DeviceViewController.m */,
+				97A89A461E096A1F00004FB7 /* SensorTableViewCell.h */,
+				97A89A471E096A1F00004FB7 /* SensorTableViewCell.m */,
+				970B25A11E124C2E00D6D258 /* EditSensorViewController.h */,
+				970B25A21E124C2E00D6D258 /* EditSensorViewController.m */,
+			);
+			name = Sensors;
+			sourceTree = "<group>";
+		};
+		977A2F7B1E2383CC006D57BC /* Snapshot */ = {
+			isa = PBXGroup;
+			children = (
+				97A89A4A1E096BD500004FB7 /* SnapshotViewController.h */,
+				97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */,
+			);
+			name = Snapshot;
+			sourceTree = "<group>";
+		};
+		977A2F7C1E2383F4006D57BC /* Rawdata */ = {
+			isa = PBXGroup;
+			children = (
+				977CB6831E13601400959A3A /* RawdataViewController.h */,
+				977CB6841E13601400959A3A /* RawdataViewController.m */,
+				977CB6891E1369C600959A3A /* RawdataTableViewCell.h */,
+				977CB68A1E1369C600959A3A /* RawdataTableViewCell.m */,
+			);
+			name = Rawdata;
+			sourceTree = "<group>";
+		};
+		977A2F7D1E238406006D57BC /* Registry */ = {
+			isa = PBXGroup;
+			children = (
+				979FDE791E0919E300FC2CD7 /* RegistryViewController.h */,
+				979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */,
+			);
+			name = Registry;
+			sourceTree = "<group>";
+		};
 		977CB67F1E13553800959A3A /* LocalMode */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,32 +278,16 @@
 				977CB67F1E13553800959A3A /* LocalMode */,
 				97A5F22A1D669C9800AB64DC /* AppDelegate.h */,
 				97A5F22B1D669C9800AB64DC /* AppDelegate.m */,
-				97A89A4E1E096D3300004FB7 /* GlobalData.h */,
-				97A89A4F1E096D3300004FB7 /* GlobalData.m */,
 				970FB8291E01191000A90CBF /* MenuViewController.h */,
 				970FB82A1E01191000A90CBF /* MenuViewController.m */,
 				97A5F22D1D669C9800AB64DC /* ViewController.h */,
 				97A5F22E1D669C9900AB64DC /* ViewController.m */,
-				979FDE761E09130A00FC2CD7 /* MyDevicesViewController.h */,
-				979FDE771E09130A00FC2CD7 /* MyDevicesViewController.m */,
-				9790ACCE1E0CFAD3003CD1D7 /* EditDeviceViewController.h */,
-				9790ACCF1E0CFAD3003CD1D7 /* EditDeviceViewController.m */,
-				970B25991E11F3C900D6D258 /* AttributeTableViewCell.h */,
-				970B259A1E11F3C900D6D258 /* AttributeTableViewCell.m */,
-				97A89A441E096A1F00004FB7 /* DeviceViewController.h */,
-				97A89A451E096A1F00004FB7 /* DeviceViewController.m */,
-				97A89A461E096A1F00004FB7 /* SensorTableViewCell.h */,
-				97A89A471E096A1F00004FB7 /* SensorTableViewCell.m */,
-				970B25A11E124C2E00D6D258 /* EditSensorViewController.h */,
-				970B25A21E124C2E00D6D258 /* EditSensorViewController.m */,
-				97A89A4A1E096BD500004FB7 /* SnapshotViewController.h */,
-				97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */,
-				977CB6891E1369C600959A3A /* RawdataTableViewCell.h */,
-				977CB68A1E1369C600959A3A /* RawdataTableViewCell.m */,
-				977CB6831E13601400959A3A /* RawdataViewController.h */,
-				977CB6841E13601400959A3A /* RawdataViewController.m */,
-				979FDE791E0919E300FC2CD7 /* RegistryViewController.h */,
-				979FDE7A1E0919E300FC2CD7 /* RegistryViewController.m */,
+				977A2F791E238360006D57BC /* Common */,
+				977A2F781E238327006D57BC /* Devices */,
+				977A2F7A1E2383A4006D57BC /* Sensors */,
+				977A2F7B1E2383CC006D57BC /* Snapshot */,
+				977A2F7C1E2383F4006D57BC /* Rawdata */,
+				977A2F7D1E238406006D57BC /* Registry */,
 				97A5F2301D669C9900AB64DC /* Main.storyboard */,
 				97A5F2361D669C9900AB64DC /* Assets.xcassets */,
 				97A5F2381D669C9900AB64DC /* LaunchScreen.storyboard */,
