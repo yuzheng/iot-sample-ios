@@ -93,7 +93,7 @@
     
     NSDate *endDate = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
     //comps.month = -1;
-    comps.day   = -7;
+    comps.day   = -1;
     NSDate *startDate = [calendar dateByAddingComponents:comps toDate:endDate options:0];
     
     self.startDateLabel.text = [[GlobalData sharedGlobalData] utcDate:startDate];
@@ -181,7 +181,7 @@
     if([rawdataData count] > 0 ){
         lastRawdata = [rawdataData objectAtIndex:0];
     }
-    if(lastRawdata == NULL || (![data.time isEqual:lastRawdata.time] && ![data.value isEqual:lastRawdata.value] )){
+    if(lastRawdata == NULL || !([data.time isEqual:lastRawdata.time] && [data.value isEqual:lastRawdata.value] )){
         NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:rawdataData];
         [rawdataData removeAllObjects];
         [rawdataData addObject:data];
@@ -192,13 +192,14 @@
         if(showChartLine) {
             //[self.lineChartView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
             
-            
             [xLabels addObject:[self xLabelFilter:data.time]];
             if([data.value[0] isEqual:[NSNull null]]) {
                 [yDataArr addObject:[NSNumber numberWithInt:0]];
             }else{
                 [yDataArr addObject:data.value[0]];
             }
+            
+            
             
             [self performSelectorOnMainThread:@selector(updateLineChart) withObject:nil waitUntilDone:YES];
             
@@ -228,13 +229,21 @@
 - (void) showLineChart {
     xLabels = [NSMutableArray new];
     yDataArr = [NSMutableArray new];
+
+    int index = 0;
     for(IRawdata *rawdata in rawdataData){
-        [xLabels insertObject:[self xLabelFilter:rawdata.time] atIndex:0];
-        [yDataArr insertObject:rawdata.value[0] atIndex:0];
+        NSLog(@"%d, %@, %@",index,rawdata.time,rawdata.value[0]);
+        if(index < 2){
+            [xLabels insertObject:[self xLabelFilter:rawdata.time] atIndex:0];
+            [yDataArr insertObject:rawdata.value[0] atIndex:0];
+
+        }
+        index ++;
     }
     
+        
     lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0,50.0,self.lineChartView.frame.size.width,(self.lineChartView.frame.size.height - 50.0))];
-    
+    //lineChart.showSmoothLines = YES;
     [lineChart setXLabelColor:[UIColor whiteColor]];
     [lineChart setYLabelColor:[UIColor whiteColor]];
     [lineChart setXLabels:xLabels];
