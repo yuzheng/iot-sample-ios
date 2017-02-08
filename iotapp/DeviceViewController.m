@@ -31,6 +31,8 @@
     // set datasource and delegate
     self.sensorsTableView.dataSource = self;
     self.sensorsTableView.delegate = self;
+    
+    mqttConnected = false;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -109,6 +111,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.activityIndicatorView stopAnimating];
         });
+        devSensors = sensors;
         sensorsData = [NSMutableArray new];
         for(ISensor *sensor in sensors){
             NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -117,7 +120,10 @@
             NSLog(@"getSensor : sensor name:%@",sensor.name);
             
             //MQTT Subscribe
-            [_mqtt subscribeDevice:self.device.id sensor:sensor.id];
+            NSLog(@"subscribes");
+            if(mqttConnected){
+                [_mqtt subscribeDevice:self.device.id sensor:sensor.id];
+            }
             
             [client getRawdataWithSensor:sensor.id withDevice:self.device.id completion:^(IRawdata *rawdata, NSError *error) {
                 NSLog(@"getSensor : rawdata time:%@",rawdata.time);
@@ -143,23 +149,43 @@
 #pragma mark OpenMqttClientDelegate
 - (void)didConnected {
     NSLog(@"ViewController: mqtt is connected");
+    
+    mqttConnected = true;
+    for(ISensor *sensor in devSensors){
+        //MQTT Subscribe
+        NSLog(@"subscribes");
+        [_mqtt subscribeDevice:self.device.id sensor:sensor.id];
+    }
 }
 
 - (void)didConnectClosed {
+    mqttConnected = false;
     NSLog(@"ViewController: mqtt is connect closed");
 }
 
 - (void)onRawdata:(NSString *)topic data:(IRawdata *)data {
     NSLog(@"ViewController: onRawdata: %@: %@ %@" ,topic, data.id, [data.value componentsJoinedByString:@","]);
+    NSInteger row = -1;
+    
+    int index = 0;
     for(NSDictionary *dict in sensorsData){
         ISensor* sensor = (ISensor*)[dict objectForKey:@"sensor"];
         //NSLog(@"%@:%@",sensor.id,data.id);
         if([sensor.id isEqualToString:data.id]){
             [dict setValue:data forKey:@"rawdata"];
+            row = index;
             break;
         }
+        index++;
     }
-    [self.sensorsTableView reloadData];
+    
+    
+    //[self.sensorsTableView reloadData];
+    [self.sensorsTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    //NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:row inSection:0];
+    //NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+    
+    //[self.sensorsTableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)onHeartBeat:(NSString *)topic data:(IHeartbeat *)data {

@@ -15,9 +15,11 @@
 {
     
     OpenRESTfulClient* client;
+    NSArray *devSensors;
     NSMutableArray *sensorsData;
     
     NSInteger selectedTag;
+    Boolean mqttConnected;
 }
 
 @property (nonatomic, strong) NSString* apiKey;

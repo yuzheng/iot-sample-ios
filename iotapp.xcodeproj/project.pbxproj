@@ -54,6 +54,7 @@
 		97A89A491E096A1F00004FB7 /* SensorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A471E096A1F00004FB7 /* SensorTableViewCell.m */; };
 		97A89A4C1E096BD500004FB7 /* SnapshotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */; };
 		97A89A501E096D3300004FB7 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A89A4F1E096D3300004FB7 /* GlobalData.m */; };
+		97B7C0041E36FD9500993873 /* chtiot-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 97B7C0031E36FD9500993873 /* chtiot-logo.png */; };
 		97C2E9D31D6C0E22007143AF /* LocalIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C2E9D21D6C0E22007143AF /* LocalIntroduce.m */; };
 		97F526841D7915FB000A0CAB /* OpenMqttClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F526831D7915FB000A0CAB /* OpenMqttClient.m */; };
 		97F526871D7952D1000A0CAB /* IHeartbeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F526861D7952D1000A0CAB /* IHeartbeat.m */; };
@@ -141,6 +142,7 @@
 		97A89A4B1E096BD500004FB7 /* SnapshotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapshotViewController.m; sourceTree = "<group>"; };
 		97A89A4E1E096D3300004FB7 /* GlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalData.h; sourceTree = "<group>"; };
 		97A89A4F1E096D3300004FB7 /* GlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalData.m; sourceTree = "<group>"; };
+		97B7C0031E36FD9500993873 /* chtiot-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chtiot-logo.png"; sourceTree = "<group>"; };
 		97C2E9D11D6C0E22007143AF /* LocalIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalIntroduce.h; sourceTree = "<group>"; };
 		97C2E9D21D6C0E22007143AF /* LocalIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalIntroduce.m; sourceTree = "<group>"; };
 		97F526821D7915FB000A0CAB /* OpenMqttClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenMqttClient.h; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 		97A5F25E1D66CDBD00AB64DC /* images */ = {
 			isa = PBXGroup;
 			children = (
+				97B7C0031E36FD9500993873 /* chtiot-logo.png */,
 				974CA12A1E14A1E500693840 /* separator@2x.png */,
 				9732DCFA1E0B9DFC00646E01 /* icon_device@2x.png */,
 				9732DCFB1E0B9DFC00646E01 /* icon_registry@2x.png */,
@@ -459,6 +462,7 @@
 				97A5F2371D669C9900AB64DC /* Assets.xcassets in Resources */,
 				9732DCFC1E0B9DFC00646E01 /* icon_device@2x.png in Resources */,
 				970FB82E1E011AF500A90CBF /* reveal-icon.png in Resources */,
+				97B7C0041E36FD9500993873 /* chtiot-logo.png in Resources */,
 				97A5F2321D669C9900AB64DC /* Main.storyboard in Resources */,
 				970B259D1E12032A00D6D258 /* delete@2x.png in Resources */,
 				97151C771E07C23D0073CC22 /* iot.plist in Resources */,

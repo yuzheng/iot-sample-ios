@@ -233,7 +233,7 @@
     int index = 0;
     for(IRawdata *rawdata in rawdataData){
         NSLog(@"%d, %@, %@",index,rawdata.time,rawdata.value[0]);
-        if(index < 2){
+        if(index < 30){
             [xLabels insertObject:[self xLabelFilter:rawdata.time] atIndex:0];
             [yDataArr insertObject:rawdata.value[0] atIndex:0];
 

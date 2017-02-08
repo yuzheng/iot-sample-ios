@@ -55,6 +55,13 @@
         
     }else{
         self.sensorValueLabel.text = value;
+        /*
+        [UIView transitionWithView:self.sensorValueLabel duration:2.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [self.sensorValueLabel setTextColor:[UIColor redColor]];
+        } completion:^(BOOL finished) {
+            [self.sensorValueLabel setTextColor:[UIColor colorWithRed:(0/255.0) green:(102.0/255.0) blue:(153.0/255.0) alpha:1.0]];
+        }];
+         */
     }
 }
 
