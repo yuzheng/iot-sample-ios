@@ -1,6 +1,6 @@
 # iot-sample-ios
 
-> 提供 CHT IoT iOS 開放協定之程式碼
+> 提供 IoT iOS 開放協定之程式碼
 
 ## Setup
 
@@ -32,12 +32,12 @@ $ pod install
 
 ### 程式說明
 
-#### CHT IoT Group
+#### IoT Group
 
 - OpenRESTfulClient: 負責處理IoT平台RESTful協定
 - OpenMqttClient: 負責處理IoT平台MQTT協定
 
-### CHT IoT App
+### IoT App
 
 - ViewController: APP 首頁
 - MyDevicesViewController: 我的設備 
